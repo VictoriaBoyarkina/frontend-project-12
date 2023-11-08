@@ -1,0 +1,22 @@
+{
+  "name": "frontend-project-12",
+  "version": "1.0.0",
+  "description": "[![Actions Status](https://github.com/VictoriaBoyarkina/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/VictoriaBoyarkina/frontend-project-12/actions)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VictoriaBoyarkina/frontend-project-12.git"
+  },
+  "author": "Victoria Boyarkina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VictoriaBoyarkina/frontend-project-12/issues"
+  },
+  "homepage": "https://github.com/VictoriaBoyarkina/frontend-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.8"
+  }
+}
