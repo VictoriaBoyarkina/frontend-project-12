@@ -49,8 +49,7 @@ function App() {
                       <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
                     </div>
                   </Navbar>
-                  <div className='container-fluid h-100'>
-                    <div className='row justify-content-center align-content-center h-100'>
+
                       <Routes>
                         <Route path="/" element={(
                           <PrivateRoute>
@@ -62,8 +61,6 @@ function App() {
                       </Routes>
                     </div>
                   </div>
-                </div>
-              </div>
     </BrowserRouter>
     </AuthProvider>
     
