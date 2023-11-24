@@ -21,6 +21,7 @@
   "homepage": "https://github.com/VictoriaBoyarkina/frontend-project-12#readme",
   "dependencies": {
     "@hexlet/chat-server": "^1.1.8",
+    "axios": "^1.6.2",
     "formik": "^2.4.5"
   }
 }
