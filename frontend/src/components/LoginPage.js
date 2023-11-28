@@ -4,7 +4,7 @@ import schema from '../schemas/index.js';
 import cn from 'classnames';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.js';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const getInputClass = (error, touched, authFailed) => cn('form-control', {
@@ -15,7 +15,6 @@ const LoginPage = () => {
     const auth = useAuth();
     const [authFailed, setAuthFailed] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation();
     const inputEl = useRef();
     useEffect(() => {
       inputEl.current.focus();
@@ -38,8 +37,7 @@ const LoginPage = () => {
               // помещаем в локалстораж данные
               localStorage.setItem('userId', JSON.stringify(res.data));
               auth.logIn();
-              const { pathname } = location.state.from
-              navigate(pathname);
+              navigate('/');
             } catch (err) { // обрабатываем ошибку
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 401) {
