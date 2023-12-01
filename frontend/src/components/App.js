@@ -6,7 +6,7 @@ import ChatPage from './ChatPage.js';
 import LoginPage from './LoginPage';
 import NotFoundPage from './NotFoundPage';
 import { Navbar } from 'react-bootstrap';
-import AuthContext from '../contexts';
+import { AuthContext, EmitsContext } from '../contexts';
 import useAuth from '../hooks/index.js';
 import { io } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
@@ -40,9 +40,10 @@ const PrivateRoute = ({ children }) => {
 };
 
 function App() {
-  const socket = io('<http://localhost:3000>');
-  socket.on("hello", (arg) => {
-    console.log(arg); // world
+  const socket = io();
+
+  socket.on('message', (message) => {
+    console.log(message); 
   });
 
   useEffect(()  => {
@@ -51,20 +52,21 @@ function App() {
     useEffect(()  => {
       document.documentElement.classList.add('h-100')});
 
-      const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-      const getAuthHeader = () => {
-          const userId = JSON.parse(localStorage.getItem('userId'));
-          if (userId && userId.token) {
-            return { Authorization: `Bearer ${userId.token}` };
-          }
-          return {};
-      };
+    const getAuthHeader = () => {
+        const userId = JSON.parse(localStorage.getItem('userId'));
+        if (userId && userId.token) {
+          return { Authorization: `Bearer ${userId.token}` };
+        }
+        return {};
+    };
   
   useEffect(() => {
     const fetchData = async () => {
-    const { data } = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
-    const {
+    await axios.get(routes.usersPath(), { headers: getAuthHeader() })
+    .then(({data}) => {
+      const {
         channels,
         currentChannelId,
         messages,
@@ -75,9 +77,20 @@ function App() {
       dispatch(channelsActions.addChannels(channels));
       dispatch(messagesActions.addMessages(messages));
       dispatch(currentChannelActions.setCurrentChannel(currentChannel));
+    })
+    .catch((err) => console.log(err))
+    
     }
     fetchData()
   }, [dispatch]);
+
+  const LogOutButton = () => {
+    const auth = useAuth();
+  
+    return (
+      auth.loggedIn ? <button type="button" onClick={auth.logOut} className="btn btn-primary">Выйти</button> : null
+    );
+  };
 
   return (
       <AuthProvider>
@@ -87,9 +100,11 @@ function App() {
                         <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
                           <div className='container'>
                             <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+                            <LogOutButton/>
                           </div>
                         </Navbar>
-                            <Routes>
+                        <EmitsContext.Provider value={{socket}}>
+                          <Routes>
                               <Route path="/" element={(
                                 <PrivateRoute>
                                   <ChatPage/>
@@ -97,9 +112,10 @@ function App() {
                               )} />  
                               <Route path="/login" element={<LoginPage />} />
                               <Route path='*' element={<NotFoundPage />} />
-                            </Routes>
-                          </div>
-                        </div>
+                          </Routes>
+                        </EmitsContext.Provider>
+                      </div>
+                    </div>
           </BrowserRouter>
           </AuthProvider>
     
