@@ -9,10 +9,11 @@ import { Navbar } from 'react-bootstrap';
 import { AuthContext, EmitsContext } from '../contexts';
 import useAuth from '../hooks/index.js';
 import { io } from 'socket.io-client';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actions as channelsActions } from '../store/channelsSlice.js';
 import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
 import { actions as messagesActions } from '../store/messagesSlice.js';
+import getModal from './modals/index.js';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -40,10 +41,12 @@ const PrivateRoute = ({ children }) => {
 };
 
 function App() {
+  const dispatch = useDispatch();
+
   const socket = io();
 
-  socket.on('message', (message) => {
-    console.log(message); 
+  socket.on('newMessage', (message) => {
+    dispatch(messagesActions.addMessage(message));
   });
 
   useEffect(()  => {
@@ -51,8 +54,6 @@ function App() {
     
     useEffect(()  => {
       document.documentElement.classList.add('h-100')});
-
-    const dispatch = useDispatch();
 
     const getAuthHeader = () => {
         const userId = JSON.parse(localStorage.getItem('userId'));
@@ -71,6 +72,8 @@ function App() {
         currentChannelId,
         messages,
       } = data;
+
+      console.log(channels)
 
       const currentChannel = channels.find((channel) => channel.id === currentChannelId)
 
@@ -92,34 +95,44 @@ function App() {
     );
   };
 
+  const { modal } = useSelector((state) => state.modal);
+  console.log(modal.name)
+
+  const renderModal = () => {
+    if (!modal.active) {
+      return null;
+    }
+    const Component = getModal(modal.name);
+    return <Component/>;
+  };
+
   return (
-      <AuthProvider>
-            <BrowserRouter>
-                  <div className='h-100' id='chat'>
-                      <div className='d-flex flex-column h-100'>
-                        <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
-                          <div className='container'>
-                            <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-                            <LogOutButton/>
-                          </div>
-                        </Navbar>
-                        <EmitsContext.Provider value={{socket}}>
-                          <Routes>
-                              <Route path="/" element={(
-                                <PrivateRoute>
-                                  <ChatPage/>
-                                </PrivateRoute>
-                              )} />  
-                              <Route path="/login" element={<LoginPage />} />
-                              <Route path='*' element={<NotFoundPage />} />
-                          </Routes>
-                        </EmitsContext.Provider>
-                      </div>
+    <AuthProvider>
+      <BrowserRouter>
+            <EmitsContext.Provider value={{socket}}>
+                <div className='h-100' id='chat'>
+                    <div className='d-flex flex-column h-100'>
+                      <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
+                        <div className='container'>
+                          <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+                          <LogOutButton/>
+                        </div>
+                      </Navbar>
+                        <Routes>
+                            <Route path="/" element={(
+                              <PrivateRoute>
+                                <ChatPage/>
+                              </PrivateRoute>
+                            )} />  
+                            <Route path="/login" element={<LoginPage />} />
+                            <Route path='*' element={<NotFoundPage />} />
+                        </Routes>
                     </div>
-          </BrowserRouter>
-          </AuthProvider>
-    
-    
+                  </div>
+                {renderModal()}
+            </EmitsContext.Provider>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
