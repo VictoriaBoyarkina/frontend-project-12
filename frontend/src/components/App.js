@@ -49,6 +49,24 @@ function App() {
     dispatch(messagesActions.addMessage(message));
   });
 
+  socket.on('newChannel', (channel) => {
+    dispatch(channelsActions.addChannel(channel));
+    dispatch(currentChannelActions.setCurrentChannel(channel));
+  });
+
+  socket.on('removeChannel', (channel) => {
+    dispatch(channelsActions.removeChannel(channel.id));
+  });
+
+  socket.on('renameChannel', (channel) => {
+    dispatch(channelsActions.updateChannel({
+      id: channel.id,
+      changes: {
+        name: channel.name,
+      },
+    }));
+  });
+
   useEffect(()  => {
     document.body.classList.add('bg-light', 'h-100')});
     
@@ -73,8 +91,6 @@ function App() {
         messages,
       } = data;
 
-      console.log(channels)
-
       const currentChannel = channels.find((channel) => channel.id === currentChannelId)
 
       dispatch(channelsActions.addChannels(channels));
@@ -96,7 +112,6 @@ function App() {
   };
 
   const { modal } = useSelector((state) => state.modal);
-  console.log(modal.name)
 
   const renderModal = () => {
     if (!modal.active) {

@@ -28,13 +28,13 @@ const ChatPage = () => {
         const newChannel = channels.find((channel) => channel.id === id);
         dispatch(currentChannelActions.setCurrentChannel(newChannel));
     };
+
+    const handleClickModal = (data) => {
+        dispatch(modalActions.openModal(data));
+    }
     
     const renderChannel = (channel) => {
         const variant = (channel.id === currentChannel.id) ? 'secondary' : '';
-
-        const toggleButtonClass = (channel.id === currentChannel.id) ? 'flex-grow-0 dropdown-toggle dropdown-toggle-split btn btn-secondary' :
-        'flex-grow-0 dropdown-toggle dropdown-toggle-split btn'
-
 
         if (channel.removable) {
             return (
@@ -42,15 +42,15 @@ const ChatPage = () => {
                     <Dropdown className='d-flex' as={ButtonGroup}>
                         <Button className='w-100 rounded-0 text-start text-truncate'
                         onClick={() => changeCurrentChannel(channel.id)} variant={variant}>
-                            <span class="me-1">#</span>
+                            <span className="me-1">#</span>
                             {channel.name}
                         </Button>
-                        <Dropdown.Toggle split variant={variant} className="flex-grow-0 rounded-1" id="dropdown-split-basic" />
+                        <Dropdown.Toggle split variant={variant} className="flex-grow-0 rounded-1" id="dropdown-split-basic"/>
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#">Удалить</Dropdown.Item>
-                            <Dropdown.Item href="#">Переименовать</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'removing', channelId: channel.id})}>Удалить</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'renaming', channelId: channel.id})}>Переименовать</Dropdown.Item>
                         </Dropdown.Menu>
-                        </Dropdown>
+                    </Dropdown>
                 </li>
             )
         }
@@ -94,17 +94,14 @@ const ChatPage = () => {
         setMessageValue('');
     }
 
-    const handleClickModal = (name) => {
-        dispatch(modalActions.openModal(name));
-    }
-
     return (
         <div className="container h-100 my-4 overflow-hidden rounded shadow">
             <div className="row h-100 bg-white flex-md-row">
                 <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
                     <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
                         <b>Каналы</b>
-                        <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => handleClickModal('adding')}>
+                        <button type="button" className="p-0 text-primary btn btn-group-vertical"
+                        onClick={() => handleClickModal({name: 'adding'})}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20"
                             fill="currentColor">
                                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2

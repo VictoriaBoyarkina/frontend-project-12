@@ -1,46 +1,57 @@
-import { useState, useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { EmitsContext } from '../../contexts/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectors as channelsSelectors} from '../../store/channelsSlice.js';
 import { actions as modalActions } from '../../store/modalSlice.js';
+import { useFormik } from 'formik';
+import schema from '../../schemas/index.js'
 
 const Addchannel = () => {
+    const inputEl = useRef();
+    useEffect(() => {
+      inputEl.current.focus();
+    }, []);
+
     const { socket } = useContext(EmitsContext);
 
     const dispatch = useDispatch();
 
     const channels = useSelector(channelsSelectors.selectAll);
 
-    const [channelName, setChannelName] = useState('');
-
-    const [error, setError] = useState('');
-
-    const handleChange = (e) => {
-        setChannelName(e.target.value)
-    };
 
     const closeModal = () => {
         dispatch(modalActions.closeModal());
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!channels.find((channel) => channel.name === channelName)) {
-            const channel = { name: channelName, removable: true };
-        
-            socket.emit("newChannel", channel, (response) => {
-                console.log(response.status); // ok
-                });
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit, setSubmitting, setErrors } = useFormik({
+        initialValues: { name: ''},
+        validationSchema: schema,
+        validateOnChange: false,
+        validateOnBlur: false, 
+        onSubmit: async (values) => {
+            console.log(errors)
+            try {
+                if (!channels.find((channel) => channel.name === values.name)) {
+                    const channel = { name: values.name, removable: true };
+                
+                    socket.emit("newChannel", channel, (response) => {
+                        console.log(response.status); // ok
+                        });
+                    
+                    dispatch(modalActions.closeModal());
+                    values.name = '';
+                    setErrors({})
+                } else {
+                    errors.name = 'Должно быть уникальным';
+                }
+            } catch (err) { // обрабатываем ошибку
+              setSubmitting(false);
+              throw err;
+            }
+          },
+    });
 
-            dispatch(modalActions.closeModal());
-            setError('');
-            setChannelName('');
-        } else {
-            setError('Должно быть уникальным');
-        }
-    }
-
-    const inputClasses = (error === '') ? 'mb-2 form-control' : 'mb-2 form-control is-invalid'
+    const inputClasses = (!errors.name && !touched.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid'
 
     return (
         <><div className="fade modal-backdrop show"></div><div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }}>
@@ -53,9 +64,16 @@ const Addchannel = () => {
                     <div className="modal-body">
                         <form className="" onSubmit={handleSubmit}>
                             <div>
-                                <input name="name" id="name" className={inputClasses} value={channelName} onChange={handleChange}/>
+                                <input
+                                name="name"
+                                id="name"
+                                ref={inputEl}
+                                className={inputClasses}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.name}/>
                                 <label className="visually-hidden" htmlFor="name">Имя канала</label>
-                                <div className="invalid-feedback" style={{ display: 'block' }}>{error}</div>
+                                <div className="invalid-feedback" style={{ display: 'block' }}>{errors.name}</div>
                                 <div className="d-flex justify-content-end">
                                     <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>Отменить</button>
                                     <button type="submit" className="btn btn-primary">Отправить</button>

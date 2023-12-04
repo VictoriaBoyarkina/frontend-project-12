@@ -1,9 +1,11 @@
 import AddChannel from './AddChannel.js';
+import RemoveChannel from './RemoveChannel.js';
+import RenameChannel from './RenameChannel.js';
 
 const modals = {
   adding: AddChannel,
-  removing: '',
-  renaming: '',
+  removing: RemoveChannel,
+  renaming: RenameChannel,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
