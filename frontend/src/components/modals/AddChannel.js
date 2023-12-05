@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectors as channelsSelectors} from '../../store/channelsSlice.js';
 import { actions as modalActions } from '../../store/modalSlice.js';
 import { useFormik } from 'formik';
-import schema from '../../schemas/index.js'
+import { getModalSchema } from '../../schemas/index.js'
 
 const Addchannel = () => {
     const inputEl = useRef();
@@ -17,33 +17,26 @@ const Addchannel = () => {
     const dispatch = useDispatch();
 
     const channels = useSelector(channelsSelectors.selectAll);
+    const channelsNames = channels.map((channels) => channels.name)
 
 
     const closeModal = () => {
         dispatch(modalActions.closeModal());
     }
 
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit, setSubmitting, setErrors } = useFormik({
+    const { values, errors, handleBlur, handleChange, handleSubmit, setSubmitting } = useFormik({
         initialValues: { name: ''},
-        validationSchema: schema,
+        validationSchema: getModalSchema(channelsNames),
         validateOnChange: false,
         validateOnBlur: false, 
         onSubmit: async (values) => {
-            console.log(errors)
-            try {
-                if (!channels.find((channel) => channel.name === values.name)) {
-                    const channel = { name: values.name, removable: true };
-                
-                    socket.emit("newChannel", channel, (response) => {
-                        console.log(response.status); // ok
-                        });
-                    
+            setSubmitting(true);
+            try { const channel = { name: values.name, removable: true };
+                socket.emit("newChannel", channel, (response) => {
+                console.log(response.status); // ok
+                    });
                     dispatch(modalActions.closeModal());
                     values.name = '';
-                    setErrors({})
-                } else {
-                    errors.name = 'Должно быть уникальным';
-                }
             } catch (err) { // обрабатываем ошибку
               setSubmitting(false);
               throw err;
@@ -51,7 +44,7 @@ const Addchannel = () => {
           },
     });
 
-    const inputClasses = (!errors.name && !touched.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid'
+    const inputClasses = (!errors.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid'
 
     return (
         <><div className="fade modal-backdrop show"></div><div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }}>

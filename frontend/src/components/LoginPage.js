@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import schema from '../schemas/index.js';
+import { loginSchema } from '../schemas/index.js';
 import cn from 'classnames';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.js';
@@ -28,7 +28,7 @@ const LoginPage = () => {
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, setSubmitting } = useFormik({
         initialValues: { username: '', password: '' },
-        validationSchema: schema,
+        validationSchema: loginSchema,
         onSubmit: async (values) => {
             setAuthFailed(false);
             try {

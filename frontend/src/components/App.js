@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import routes from '../routes.js';
 import ChatPage from './ChatPage.js';
+import SignupPage from './SignupPage.js';
 import LoginPage from './LoginPage';
 import NotFoundPage from './NotFoundPage';
 import { Navbar } from 'react-bootstrap';
@@ -43,7 +44,8 @@ const PrivateRoute = ({ children }) => {
 function App() {
   const dispatch = useDispatch();
 
-  const socket = io();
+  const socket = io({
+  });
 
   socket.on('newMessage', (message) => {
     dispatch(messagesActions.addMessage(message));
@@ -97,17 +99,17 @@ function App() {
       dispatch(messagesActions.addMessages(messages));
       dispatch(currentChannelActions.setCurrentChannel(currentChannel));
     })
-    .catch((err) => console.log(err))
+    .catch((err) => fetchData())
     
     }
     fetchData()
-  }, [dispatch]);
+  });
 
   const LogOutButton = () => {
     const auth = useAuth();
   
     return (
-      auth.loggedIn ? <button type="button" onClick={auth.logOut} className="btn btn-primary">Выйти</button> : null
+      auth.loggedIn ? <button type="button" onClick={auth.logOut} className="btn btn-primary rounded-1">Выйти</button> : null
     );
   };
 
@@ -140,6 +142,7 @@ function App() {
                               </PrivateRoute>
                             )} />  
                             <Route path="/login" element={<LoginPage />} />
+                            <Route path='/signup' element={<SignupPage />} />
                             <Route path='*' element={<NotFoundPage />} />
                         </Routes>
                     </div>
