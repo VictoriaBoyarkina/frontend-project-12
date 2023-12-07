@@ -1,9 +1,11 @@
 import { useContext } from 'react';
 import { EmitsContext } from '../../contexts/index.js';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as modalActions } from '../../store/modalSlice.js';
 
 const RemoveChannel = () => {
+    const { t } = useTranslation();
 
     const { socket } = useContext(EmitsContext);
 
@@ -31,14 +33,14 @@ const RemoveChannel = () => {
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <div className="modal-title h4">Удалить канал</div>
+                            <div className="modal-title h4">{t('deleteChannel')}</div>
                             <button type="button" onClick={closeModal} aria-label="Close" data-bs-dismiss="modal" className="btn btn-close"></button>
                         </div>
                         <div className="modal-body">
-                            <p className="lead">Уверены?</p>
+                            <p className="lead">{t('areYouSure')}</p>
                             <div className="d-flex justify-content-end">
-                                <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>Отменить</button>
-                                <button type="button" className="btn btn-danger" onClick={removeChannel}>Удалить</button>
+                                <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>{t('buttons.cancel')}</button>
+                                <button type="button" className="btn btn-danger" onClick={removeChannel}>{t('buttons.delete')}</button>
                             </div>
                         </div>
                     </div>

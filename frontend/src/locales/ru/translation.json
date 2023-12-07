@@ -1,0 +1,36 @@
+{
+    "buttons": {
+        "logout": "Выйти",
+        "signup": "Зарегистрироваться",
+        "login": "Войти",
+        "delete": "Удалить",
+        "rename": "Переименовать",
+        "cancel": "Отменить",
+        "send": "Отправить"
+      },
+      "messages": {
+        "key_one": "{{count}} сообщение",
+        "key_few": "{{count}} сообщения",
+        "key_many": "{{count}} сообщений"
+      },
+      "channelName": "Имя канала",
+      "channels": "Каналы",
+      "deleteChannel": "Удалить канал",
+      "areYouSure": "Уверены?",
+      "renameChannel": "Переименовать канал",
+      "addChannel": "Добавить канал",
+      "registration": "Регистрация",
+      "noAccount": "Нет аккаунта?",
+      "password": "Пароль",
+      "username": "Имя пользователя",
+      "confirmPassword": "Подтвердите пароль",
+      "nickname": "Ваш ник",
+      "errors": {
+        "required": "Не должно быть пустым",
+        "notOneOf": "RSS уже существует",
+        "default": "Это поле обязательно",
+        "url": "Ссылка должна быть валидным URL",
+        "parseError": "Ресурс не содержит валидный RSS",
+        "NetworkError": "Ошибка сети"
+      }
+}

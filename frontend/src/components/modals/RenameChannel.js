@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef } from 'react';
 import { EmitsContext } from '../../contexts/index.js';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectors as channelsSelectors} from '../../store/channelsSlice.js';
 import { actions as modalActions } from '../../store/modalSlice.js';
@@ -7,6 +8,8 @@ import { useFormik } from 'formik';
 import { getModalSchema } from '../../schemas/index.js';
 
 const RenameChannel = () => {
+    const { t } = useTranslation();
+
     const inputEl = useRef();
     useEffect(() => {
       inputEl.current.focus();
@@ -37,11 +40,11 @@ const RenameChannel = () => {
             setSubmitting(true);
             try { const channel = { id: currentChannel.id, name: values.name };
             socket.emit("renameChannel", channel, (response) => {
-                console.log(response.status); // ok
+                console.log(response.status);
                 });
                 dispatch(modalActions.closeModal());
                 values.name = '';
-            } catch (err) { // обрабатываем ошибку
+            } catch (err) {
               setSubmitting(false);
               throw err;
             }
@@ -55,7 +58,7 @@ const RenameChannel = () => {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <div className="modal-title h4">Переименовать канал</div>
+                        <div className="modal-title h4">{t('renameChannel')}</div>
                         <button type="button" aria-label="Close" data-bs-dismiss="modal" onClick={closeModal} className="btn btn-close"></button>
                     </div>
                     <div className="modal-body">
@@ -68,11 +71,11 @@ const RenameChannel = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.name}/>
-                                <label className="visually-hidden" htmlFor="name">Имя канала</label>
+                                <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
                                 <div className="invalid-feedback" style={{ display: 'block' }}>{errors.name}</div>
                                 <div className="d-flex justify-content-end">
-                                    <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>Отменить</button>
-                                    <button type="submit" className="btn btn-primary">Отправить</button>
+                                    <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>{t('buttons.cancel')}</button>
+                                    <button type="submit" className="btn btn-primary">{t('buttons.send')}</button>
                                 </div>
                             </div>
                         </form>

@@ -4,6 +4,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { selectors as channelsSelectors} from '../store/channelsSlice.js';
 import { selectors as messagesSelectors} from '../store/messagesSlice.js';
+import { useTranslation } from 'react-i18next';
 import { EmitsContext } from '../contexts/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
@@ -13,6 +14,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const ChatPage = () => {
+    const { t } = useTranslation();
+
     const inputEl = useRef();
     useEffect(() => {
       inputEl.current.focus();
@@ -23,6 +26,7 @@ const ChatPage = () => {
     const channels = useSelector(channelsSelectors.selectAll);
     const messages = useSelector(messagesSelectors.selectAll);
     const { currentChannel } = useSelector((state) => state.currentChannel);
+    const currentChannelMessages = messages.filter((message) => message.channelId === currentChannel.id);
 
     const changeCurrentChannel = (id) => {
         const newChannel = channels.find((channel) => channel.id === id);
@@ -47,8 +51,8 @@ const ChatPage = () => {
                         </Button>
                         <Dropdown.Toggle split variant={variant} className="flex-grow-0 rounded-1" id="dropdown-split-basic"/>
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'removing', channelId: channel.id})}>Удалить</Dropdown.Item>
-                            <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'renaming', channelId: channel.id})}>Переименовать</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'removing', channelId: channel.id})}>{t('buttons.delete')}</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'renaming', channelId: channel.id})}>{t('buttons.rename')}</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </li>
@@ -99,7 +103,7 @@ const ChatPage = () => {
             <div className="row h-100 bg-white flex-md-row">
                 <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
                     <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-                        <b>Каналы</b>
+                        <b>{t('channels')}</b>
                         <button type="button" className="p-0 text-primary btn btn-group-vertical"
                         onClick={() => handleClickModal({name: 'adding'})}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20"
@@ -123,7 +127,7 @@ const ChatPage = () => {
                             <p className='m-0'>
                                 <b># {currentChannel.name}</b>
                             </p>
-                            <span className="text-muted">0 сообщения</span>
+                            <span className="text-muted">{t('messages.key', { count: currentChannelMessages.length})}</span>
                         </div>
                         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
                             {messages.map((message) => renderMessage(message))}
@@ -144,7 +148,7 @@ const ChatPage = () => {
                                             <path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z">
                                             </path>
                                         </svg>
-                                        <span className="visually-hidden">Отправить
+                                        <span className="visually-hidden">{t('send')}
                                         </span>
                                     </button>
                                 </div>

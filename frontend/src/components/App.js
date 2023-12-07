@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { I18nextProvider } from 'react-i18next';
+import i18next from './../i18next.js'
 import routes from '../routes.js';
 import ChatPage from './ChatPage.js';
 import SignupPage from './SignupPage.js';
@@ -42,6 +44,7 @@ const PrivateRoute = ({ children }) => {
 };
 
 function App() {
+
   const dispatch = useDispatch();
 
   const socket = io({
@@ -109,7 +112,7 @@ function App() {
     const auth = useAuth();
   
     return (
-      auth.loggedIn ? <button type="button" onClick={auth.logOut} className="btn btn-primary rounded-1">Выйти</button> : null
+      auth.loggedIn ? <button type="button" onClick={auth.logOut} className="btn btn-primary rounded-1">{i18next.t('buttons.logout')}</button> : null
     );
   };
 
@@ -125,31 +128,33 @@ function App() {
 
   return (
     <AuthProvider>
-      <BrowserRouter>
-            <EmitsContext.Provider value={{socket}}>
-                <div className='h-100' id='chat'>
-                    <div className='d-flex flex-column h-100'>
-                      <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
-                        <div className='container'>
-                          <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-                          <LogOutButton/>
-                        </div>
-                      </Navbar>
-                        <Routes>
-                            <Route path="/" element={(
-                              <PrivateRoute>
-                                <ChatPage/>
-                              </PrivateRoute>
-                            )} />  
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path='/signup' element={<SignupPage />} />
-                            <Route path='*' element={<NotFoundPage />} />
-                        </Routes>
+      <I18nextProvider i18n={i18next} defaultNS={'translation'}>
+        <BrowserRouter>
+              <EmitsContext.Provider value={{socket}}>
+                  <div className='h-100' id='chat'>
+                      <div className='d-flex flex-column h-100'>
+                        <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
+                          <div className='container'>
+                            <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+                            <LogOutButton/>
+                          </div>
+                        </Navbar>
+                          <Routes>
+                              <Route path="/" element={(
+                                <PrivateRoute>
+                                  <ChatPage/>
+                                </PrivateRoute>
+                              )} />  
+                              <Route path="/login" element={<LoginPage />} />
+                              <Route path='/signup' element={<SignupPage />} />
+                              <Route path='*' element={<NotFoundPage />} />
+                          </Routes>
+                      </div>
                     </div>
-                  </div>
-                {renderModal()}
-            </EmitsContext.Provider>
-      </BrowserRouter>
+                  {renderModal()}
+              </EmitsContext.Provider>
+        </BrowserRouter>
+      </I18nextProvider>
     </AuthProvider>
   );
 }

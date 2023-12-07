@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { signupSchema } from '../schemas/index.js';
+import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.js';
@@ -17,6 +18,8 @@ const getConfirmPasswordInputClass = (error, touched, password, authFailed) => c
 
 
 const SignupPage = () => {
+    const { t } = useTranslation();
+
     const auth = useAuth();
     const [authFailed, setAuthFailed] = useState(false);
     const navigate = useNavigate();
@@ -30,13 +33,11 @@ const SignupPage = () => {
         validationSchema: signupSchema,
         onSubmit: async (values) => {
             try {
-              // создаем пост запрос 
               const res = await axios.post(routes.signupPath(), values);
-              // помещаем в локалстораж данные
               localStorage.setItem('userId', JSON.stringify(res.data));
               auth.logIn();
               navigate('/');
-            } catch (err) { // обрабатываем ошибку
+            } catch (err) {
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 409) {
                 setAuthFailed(true);
@@ -58,7 +59,7 @@ const SignupPage = () => {
                         <img src="https://frontend-chat-ru.hexlet.app/static/media/avatar_1.6084447160acc893a24d.jpg" className='rounded-circle' alt="Регистрация"/>
                     </div>
                     <form className="w-50" onSubmit={handleSubmit}>
-                        <h1 className='text-center mb-4'>Регистрация</h1>
+                        <h1 className='text-center mb-4'>{t('registration')}</h1>
                         <div className='form-floating mb-3'>
                             <input
                             ref={inputEl}
@@ -73,7 +74,7 @@ const SignupPage = () => {
                             value={values.username}
                             />
                             <div className="invalid-tooltip">{errors.username}</div>
-                            <label className='form-label' htmlFor="username">Имя пользователя</label>
+                            <label className='form-label' htmlFor="username">{t('username')}</label>
                         </div>
                         <div className='form-floating mb-3'>
                             <input
@@ -88,7 +89,7 @@ const SignupPage = () => {
                             value={values.password}
                             />
                             <div className="invalid-tooltip">{errors.password}</div>
-                            <label className='form-label' htmlFor="password">Пароль</label>
+                            <label className='form-label' htmlFor="password">{t('password')}</label>
                         </div>
                         <div className='form-floating mb-4'>
                             <input
@@ -105,9 +106,9 @@ const SignupPage = () => {
                             <div className="invalid-tooltip">
                                 {errors.confirmPassword}
                             </div>
-                            <label className='form-label' htmlFor="password">Подтвердите пароль</label>
+                            <label className='form-label' htmlFor="password">{t('confirmPassword')}</label>
                         </div>
-                        <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Зарегистрироваться</button>
+                        <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('buttons.signup')}</button>
                     </form>
                 </div>
             </div>
