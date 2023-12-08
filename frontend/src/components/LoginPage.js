@@ -3,6 +3,10 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { loginSchema } from '../schemas/index.js';
 import cn from 'classnames';
+import { useDispatch } from 'react-redux';
+import { actions as channelsActions } from '../store/channelsSlice.js';
+import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
+import { actions as messagesActions } from '../store/messagesSlice.js';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.js';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +19,8 @@ const getInputClass = (error, touched, authFailed) => cn('form-control', {
 const LoginPage = () => {
     const { t } = useTranslation();
 
+    const dispatch = useDispatch();
+
     const auth = useAuth();
     const [authFailed, setAuthFailed] = useState(false);
     const navigate = useNavigate();
@@ -25,8 +31,16 @@ const LoginPage = () => {
 
     const InvalidCredentials = () => {
         if (authFailed) {
-            return <div className="invalid-tooltip">Неверные имя пользователя или пароль</div>
+            return <div className="invalid-tooltip">{t('errors.invalidCredentials')}</div>
         }
+    };
+
+    const getAuthHeader = () => {
+        const userId = JSON.parse(localStorage.getItem('userId'));
+        if (userId && userId.token) {
+          return { Authorization: `Bearer ${userId.token}` };
+        }
+        return {};
     };
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, setSubmitting } = useFormik({
@@ -35,13 +49,27 @@ const LoginPage = () => {
         onSubmit: async (values) => {
             setAuthFailed(false);
             try {
-              // создаем пост запрос 
               const res = await axios.post(routes.loginPath(), values);
-              // помещаем в локалстораж данные
               localStorage.setItem('userId', JSON.stringify(res.data));
               auth.logIn();
-              navigate('/');
-            } catch (err) { // обрабатываем ошибку
+              await axios.get(routes.usersPath(), { headers: getAuthHeader() })
+                .then(({data}) => {
+                  const {
+                    channels,
+                    currentChannelId,
+                    messages,
+                  } = data;
+            
+                  const currentChannel = channels.find((channel) => channel.id === currentChannelId)
+            
+                  dispatch(channelsActions.addChannels(channels));
+                  dispatch(messagesActions.addMessages(messages));
+                  dispatch(currentChannelActions.setCurrentChannel(currentChannel));
+                })
+                .then()
+                .catch((err) => console.log(err))
+                navigate('/');
+            } catch (err) {
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 401) {
                 setAuthFailed(true);

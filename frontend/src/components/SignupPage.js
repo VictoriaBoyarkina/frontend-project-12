@@ -41,7 +41,7 @@ const SignupPage = () => {
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 409) {
                 setAuthFailed(true);
-                errors.confirmPassword = 'Такой пользователь уже существует'
+                errors.confirmPassword = 'thisUserExist'
                 return;
               }
               throw err;

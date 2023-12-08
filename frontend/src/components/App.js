@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { I18nextProvider } from 'react-i18next';
 import i18next from './../i18next.js'
-import routes from '../routes.js';
 import ChatPage from './ChatPage.js';
 import SignupPage from './SignupPage.js';
 import LoginPage from './LoginPage';
@@ -77,36 +75,6 @@ function App() {
     
     useEffect(()  => {
       document.documentElement.classList.add('h-100')});
-
-    const getAuthHeader = () => {
-        const userId = JSON.parse(localStorage.getItem('userId'));
-        if (userId && userId.token) {
-          return { Authorization: `Bearer ${userId.token}` };
-        }
-        return {};
-    };
-  
-  useEffect(() => {
-    const fetchData = async () => {
-    await axios.get(routes.usersPath(), { headers: getAuthHeader() })
-    .then(({data}) => {
-      const {
-        channels,
-        currentChannelId,
-        messages,
-      } = data;
-
-      const currentChannel = channels.find((channel) => channel.id === currentChannelId)
-
-      dispatch(channelsActions.addChannels(channels));
-      dispatch(messagesActions.addMessages(messages));
-      dispatch(currentChannelActions.setCurrentChannel(currentChannel));
-    })
-    .catch((err) => fetchData())
-    
-    }
-    fetchData()
-  });
 
   const LogOutButton = () => {
     const auth = useAuth();
