@@ -41,18 +41,20 @@ const RenameChannel = () => {
             setSubmitting(true);
             try { const channel = { id: currentChannel.id, name: values.name };
             socket.emit("renameChannel", channel, (response) => {
-                console.log(response.status);
+                if (response.status === 'ok') {
+                    dispatch(modalActions.closeModal());
+                    values.name = '';
+                    toast.success(t('toast.renameChannel', {
+                        autoClose: 5000
+                        }))
+                    } else {
+                        setSubmitting(false);
+                    }
                 });
-                dispatch(modalActions.closeModal());
-                values.name = '';
-                toast.success(t('toast.renameChannel', {
-                    autoClose: 5000
-                }))
             } catch (err) {
               setSubmitting(false);
-              throw err;
             }
-          },
+        },
     });
 
     const inputClasses = (!errors.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid'

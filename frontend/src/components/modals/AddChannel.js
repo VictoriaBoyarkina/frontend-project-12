@@ -36,14 +36,18 @@ const Addchannel = () => {
         onSubmit: async (values) => {
             setSubmitting(true);
             try { const channel = { name: values.name, removable: true };
-                socket.emit("newChannel", channel, (response) => {
-                console.log(response.status);
-                    });
+            socket.emit("newChannel", channel, (response) => {
+                if (response.status === 'ok') {
                     dispatch(modalActions.closeModal());
                     values.name = '';
                     toast.success(t('toast.addChannel', {
                         autoClose: 5000
-                    }))
+                        }
+                        ))
+                } else {
+                    setSubmitting(false);
+                }
+                });
             } catch (err) {
               setSubmitting(false);
               throw err;
@@ -73,7 +77,7 @@ const Addchannel = () => {
                                 onBlur={handleBlur}
                                 value={values.name}/>
                                 <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
-                                <div className="invalid-feedback" style={{ display: 'block' }}>{errors.name}</div>
+                                <div className="invalid-feedback" style={{ display: 'block' }}>{t(errors.name)}</div>
                                 <div className="d-flex justify-content-end">
                                     <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>{t('buttons.cancel')}</button>
                                     <button type="submit" className="btn btn-primary">{t('buttons.send')}</button>

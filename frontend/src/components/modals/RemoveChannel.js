@@ -19,14 +19,18 @@ const RemoveChannel = () => {
     const { modal } = useSelector((state) => state.modal);
     const { channelId } = modal;
 
-    const removeChannel = () => {
+    const removeChannel = (e) => {
+        e.currentTarget.disabled = true;
         socket.emit("removeChannel", { id: channelId }, (response) => {
-            console.log(response.status); // ok
-            });
-        dispatch(modalActions.closeModal());
-        toast.success(t('toast.deleteChannel', {
-            autoClose: 5000
-        }))
+            if (response.status === 'ok') {
+                dispatch(modalActions.closeModal());
+                toast.success(t('toast.deleteChannel', {
+                    autoClose: 5000
+                }))
+            } else {
+                e.currentTarget.disabled = false;
+            }
+        });
     }
 
     return (

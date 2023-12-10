@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //import axios from 'axios';
 //import routes from '../routes.js';
+import LeoProfanity from 'leo-profanity';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { selectors as channelsSelectors} from '../store/channelsSlice.js';
 import { selectors as messagesSelectors} from '../store/messagesSlice.js';
@@ -14,6 +15,9 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const ChatPage = () => {
+    LeoProfanity.loadDictionary('ru')
+
+
     const { t } = useTranslation();
 
     const inputEl = useRef();
@@ -90,7 +94,7 @@ const ChatPage = () => {
     const userName = JSON.parse(localStorage.getItem('userId')).username;
 
     const handleSubmit = (e) => {
-        const message = { text: messageValue, user: userName, channelId: currentChannel.id }
+        const message = { text: LeoProfanity.clean(messageValue), user: userName, channelId: currentChannel.id }
         e.preventDefault();
         socket.emit("newMessage", message, (response) => {
             console.log(response.status); // ok
