@@ -6,7 +6,12 @@ import cn from 'classnames';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.js';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { actions as channelsActions } from '../store/channelsSlice.js';
+import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
+import { actions as messagesActions } from '../store/messagesSlice.js';
 
 const getInputClass = (error, touched, authFailed) => cn('form-control', {
     'is-invalid': ((error && touched) || authFailed)
@@ -16,8 +21,18 @@ const getConfirmPasswordInputClass = (error, touched, password, authFailed) => c
     'is-invalid': ((error && touched && password !== '') || authFailed)
   });
 
+const getAuthHeader = () => {
+    const userId = JSON.parse(localStorage.getItem('userId'));
+    if (userId && userId.token) {
+      return { Authorization: `Bearer ${userId.token}` };
+    }
+    return {};
+};
+
 
 const SignupPage = () => {
+    const dispatch = useDispatch();
+
     const { t } = useTranslation();
 
     const auth = useAuth();
@@ -36,17 +51,36 @@ const SignupPage = () => {
               const res = await axios.post(routes.signupPath(), values);
               localStorage.setItem('userId', JSON.stringify(res.data));
               auth.logIn();
+              await axios.get(routes.usersPath(), { headers: getAuthHeader() })
+                  .then(({data}) => {
+                  const {
+                      channels,
+                      currentChannelId,
+                      messages,
+                  } = data;
+          
+                  const currentChannel = channels.find((channel) => channel.id === currentChannelId)
+          
+                  dispatch(channelsActions.addChannels(channels));
+                  dispatch(messagesActions.addMessages(messages));
+                  dispatch(currentChannelActions.setCurrentChannel(currentChannel));
+                  navigate('/');
+                  })
+                  .catch((err) => console.log(err))
               navigate('/');
             } catch (err) {
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 409) {
                 setAuthFailed(true);
-                errors.confirmPassword = 'thisUserExist'
+                errors.confirmPassword = 'errors.username.unique'
                 return;
-              }
-              throw err;
+              } else {
+                toast.error(t('toast.networkError', {
+                    autoClose: 5000
+                }))
             }
-          },
+          }
+        }
     });
 
     return (
@@ -73,7 +107,7 @@ const SignupPage = () => {
                             onBlur={handleBlur}
                             value={values.username}
                             />
-                            <div className="invalid-tooltip">{errors.username}</div>
+                            <div className="invalid-tooltip">{t(errors.username)}</div>
                             <label className='form-label' htmlFor="username">{t('username')}</label>
                         </div>
                         <div className='form-floating mb-3'>
@@ -88,7 +122,7 @@ const SignupPage = () => {
                             onBlur={handleBlur}
                             value={values.password}
                             />
-                            <div className="invalid-tooltip">{errors.password}</div>
+                            <div className="invalid-tooltip">{t(errors.password)}</div>
                             <label className='form-label' htmlFor="password">{t('password')}</label>
                         </div>
                         <div className='form-floating mb-4'>
@@ -104,7 +138,7 @@ const SignupPage = () => {
                             value={values.confirmPassword}
                             />
                             <div className="invalid-tooltip">
-                                {errors.confirmPassword}
+                                {t(errors.confirmPassword)}
                             </div>
                             <label className='form-label' htmlFor="password">{t('confirmPassword')}</label>
                         </div>

@@ -3,27 +3,38 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { loginSchema } from '../schemas/index.js';
 import cn from 'classnames';
-import { useDispatch } from 'react-redux';
-import { actions as channelsActions } from '../store/channelsSlice.js';
-import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
-import { actions as messagesActions } from '../store/messagesSlice.js';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { actions as channelsActions } from '../store/channelsSlice.js';
+import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
+import { actions as messagesActions } from '../store/messagesSlice.js';
+import { toast } from 'react-toastify';
 
 const getInputClass = (error, touched, authFailed) => cn('form-control', {
     'is-invalid': (error && touched) || authFailed,
   });
+
+const getAuthHeader = () => {
+    const userId = JSON.parse(localStorage.getItem('userId'));
+    if (userId && userId.token) {
+      return { Authorization: `Bearer ${userId.token}` };
+    }
+    return {};
+};
 
 const LoginPage = () => {
     const { t } = useTranslation();
 
     const dispatch = useDispatch();
 
-    const auth = useAuth();
-    const [authFailed, setAuthFailed] = useState(false);
     const navigate = useNavigate();
+
+    const auth = useAuth();
+
+    const [authFailed, setAuthFailed] = useState(false);
     const inputEl = useRef();
     useEffect(() => {
       inputEl.current.focus();
@@ -33,14 +44,6 @@ const LoginPage = () => {
         if (authFailed) {
             return <div className="invalid-tooltip">{t('errors.invalidCredentials')}</div>
         }
-    };
-
-    const getAuthHeader = () => {
-        const userId = JSON.parse(localStorage.getItem('userId'));
-        if (userId && userId.token) {
-          return { Authorization: `Bearer ${userId.token}` };
-        }
-        return {};
     };
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, setSubmitting } = useFormik({
@@ -53,30 +56,32 @@ const LoginPage = () => {
               localStorage.setItem('userId', JSON.stringify(res.data));
               auth.logIn();
               await axios.get(routes.usersPath(), { headers: getAuthHeader() })
-                .then(({data}) => {
+                  .then(({data}) => {
                   const {
-                    channels,
-                    currentChannelId,
-                    messages,
+                      channels,
+                      currentChannelId,
+                      messages,
                   } = data;
-            
+          
                   const currentChannel = channels.find((channel) => channel.id === currentChannelId)
-            
+          
                   dispatch(channelsActions.addChannels(channels));
                   dispatch(messagesActions.addMessages(messages));
                   dispatch(currentChannelActions.setCurrentChannel(currentChannel));
-                })
-                .then()
-                .catch((err) => console.log(err))
-                navigate('/');
+                  navigate('/');
+                  })
+                  .catch((err) => console.log(err))
             } catch (err) {
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 401) {
                 setAuthFailed(true);
                 inputEl.current.select();
                 return;
+              } else {
+                toast.error(t('toast.networkError', {
+                    autoClose: 5000
+                }))
               }
-              throw err;
             }
           },
     });

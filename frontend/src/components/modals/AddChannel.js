@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectors as channelsSelectors} from '../../store/channelsSlice.js';
 import { actions as modalActions } from '../../store/modalSlice.js';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { getModalSchema } from '../../schemas/index.js'
 
 const Addchannel = () => {
@@ -40,6 +41,9 @@ const Addchannel = () => {
                     });
                     dispatch(modalActions.closeModal());
                     values.name = '';
+                    toast.success(t('toast.addChannel', {
+                        autoClose: 5000
+                    }))
             } catch (err) {
               setSubmitting(false);
               throw err;

@@ -3,6 +3,7 @@ import { EmitsContext } from '../../contexts/index.js';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as modalActions } from '../../store/modalSlice.js';
+import { toast } from 'react-toastify';
 
 const RemoveChannel = () => {
     const { t } = useTranslation();
@@ -22,8 +23,10 @@ const RemoveChannel = () => {
         socket.emit("removeChannel", { id: channelId }, (response) => {
             console.log(response.status); // ok
             });
-
         dispatch(modalActions.closeModal());
+        toast.success(t('toast.deleteChannel', {
+            autoClose: 5000
+        }))
     }
 
     return (

@@ -15,6 +15,8 @@ import { actions as channelsActions } from '../store/channelsSlice.js';
 import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
 import { actions as messagesActions } from '../store/messagesSlice.js';
 import getModal from './modals/index.js';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -42,6 +44,7 @@ const PrivateRoute = ({ children }) => {
 };
 
 function App() {
+  localStorage.clear()
 
   const dispatch = useDispatch();
 
@@ -78,9 +81,13 @@ function App() {
 
   const LogOutButton = () => {
     const auth = useAuth();
-  
+    const signOut = () => {
+      auth.logOut();
+      localStorage.clear()
+    }
+    
     return (
-      auth.loggedIn ? <button type="button" onClick={auth.logOut} className="btn btn-primary rounded-1">{i18next.t('buttons.logout')}</button> : null
+      auth.loggedIn ? <button type="button" onClick={signOut} className="btn btn-primary rounded-1">{i18next.t('buttons.logout')}</button> : null
     );
   };
 
@@ -103,7 +110,7 @@ function App() {
                       <div className='d-flex flex-column h-100'>
                         <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
                           <div className='container'>
-                            <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+                            <Navbar.Brand as={Link} to="/">{i18next.t('navBar.brand')}</Navbar.Brand>
                             <LogOutButton/>
                           </div>
                         </Navbar>
@@ -119,6 +126,9 @@ function App() {
                           </Routes>
                       </div>
                     </div>
+                    <ToastContainer 
+                    position="top-right"
+                    />
                   {renderModal()}
               </EmitsContext.Provider>
         </BrowserRouter>

@@ -6,6 +6,7 @@ import { selectors as channelsSelectors} from '../../store/channelsSlice.js';
 import { actions as modalActions } from '../../store/modalSlice.js';
 import { useFormik } from 'formik';
 import { getModalSchema } from '../../schemas/index.js';
+import { toast } from 'react-toastify';
 
 const RenameChannel = () => {
     const { t } = useTranslation();
@@ -44,6 +45,9 @@ const RenameChannel = () => {
                 });
                 dispatch(modalActions.closeModal());
                 values.name = '';
+                toast.success(t('toast.renameChannel', {
+                    autoClose: 5000
+                }))
             } catch (err) {
               setSubmitting(false);
               throw err;
