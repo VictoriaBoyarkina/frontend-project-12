@@ -19,7 +19,7 @@ import { ToastContainer} from 'react-toastify';
 import { Provider, ErrorBoundary } from '@rollbar/react';
 
 const rollbarConfig = {
-  accessToken: 'fc82c37c10134a7f95f829f4469c7c17',
+  accessToken: '1d2a52991db34aa89efbdd8df5e0651a',
   environment: 'production',
   };
 
@@ -50,11 +50,6 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   const dispatch = useDispatch();
-
-  function TestError() {
-    const a = null;
-    return a.hello();
-  }
 
   const socket = io({
   });
@@ -113,7 +108,6 @@ function App() {
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
         <AuthProvider>
-        <TestError />
           <I18nextProvider i18n={i18next} defaultNS={'translation'}>
             <BrowserRouter>
                   <EmitsContext.Provider value={{socket}}>

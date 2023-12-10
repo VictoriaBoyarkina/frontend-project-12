@@ -17,7 +17,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 const ChatPage = () => {
     LeoProfanity.loadDictionary('ru')
 
-
     const { t } = useTranslation();
 
     const inputEl = useRef();
@@ -62,6 +61,7 @@ const ChatPage = () => {
                 </li>
             )
         }
+        
         return (
             <li className="nav-item w-100" key={channel.id}>
                 <Button className='w-100 rounded-0 text-start'
