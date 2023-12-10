@@ -43,34 +43,28 @@ const ChatPage = () => {
     const renderChannel = (channel) => {
         const variant = (channel.id === currentChannel.id) ? 'secondary' : '';
 
-        if (channel.removable) {
+        const renderButton = () => {
             return (
-                <li className="nav-item w-100" key={channel.id}>
-                    <Dropdown className='d-flex' as={ButtonGroup}>
-                        <Button className='w-100 rounded-0 text-start text-truncate'
-                        onClick={() => changeCurrentChannel(channel.id)} variant={variant}>
-                            <span className="me-1">#</span>
-                            {channel.name}
-                        </Button>
-                        <Dropdown.Toggle split variant={variant} className="flex-grow-0 rounded-1" id="dropdown-split-basic"/>
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'removing', channelId: channel.id})}>{t('buttons.delete')}</Dropdown.Item>
-                            <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'renaming', channelId: channel.id})}>{t('buttons.rename')}</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </li>
-            )
-        }
-        
-        return (
-            <li className="nav-item w-100" key={channel.id}>
                 <Button className='w-100 rounded-0 text-start'
                 onClick={() => changeCurrentChannel(channel.id)} variant={variant}>
                 <span className="me-1">#</span>
                     {channel.name}
                 </Button>
+            )
+        }
+
+        return channel.removable ? (
+            <li className="nav-item w-100" key={channel.id}>
+                <Dropdown className='d-flex' as={ButtonGroup}>
+                   {renderButton()}
+                    <Dropdown.Toggle split variant={variant} className="flex-grow-0 rounded-1" id="dropdown-split-basic"/>
+                    <Dropdown.Menu>
+                        <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'removing', channelId: channel.id})}>{t('buttons.delete')}</Dropdown.Item>
+                        <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'renaming', channelId: channel.id})}>{t('buttons.rename')}</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </li>
-        )
+        ) : renderButton()
     };
 
     const renderMessage = (message) => {
