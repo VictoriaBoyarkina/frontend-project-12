@@ -17,9 +17,6 @@ import { actions as messagesActions } from '../store/messagesSlice.js';
 import getModal from './modals/index.js';
 import { ToastContainer} from 'react-toastify';
 import { Provider, ErrorBoundary } from '@rollbar/react';
-import { Client } from 'rollbar-react-native'
-
-const rollbar = new Client('fc82c37c10134a7f95f829f4469c7c17')
 
 const rollbarConfig = {
   accessToken: 'fc82c37c10134a7f95f829f4469c7c17',
@@ -52,10 +49,12 @@ const PrivateRoute = ({ children }) => {
 };
 
 function App() {
-
-  rollbar.log('Hello world!')
-
   const dispatch = useDispatch();
+
+  function TestError() {
+    const a = null;
+    return a.hello();
+  }
 
   const socket = io({
   });
@@ -114,6 +113,7 @@ function App() {
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
         <AuthProvider>
+        <TestError />
           <I18nextProvider i18n={i18next} defaultNS={'translation'}>
             <BrowserRouter>
                   <EmitsContext.Provider value={{socket}}>
