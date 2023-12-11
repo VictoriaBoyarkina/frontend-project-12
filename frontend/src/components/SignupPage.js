@@ -5,39 +5,28 @@ import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.js';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { actions as channelsActions } from '../store/channelsSlice.js';
-import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
-import { actions as messagesActions } from '../store/messagesSlice.js';
 
 const getInputClass = (error, touched, authFailed) => cn('form-control', {
     'is-invalid': ((error && touched) || authFailed)
   });
 
-const getConfirmPasswordInputClass = (error, touched, password, authFailed) => cn('form-control', {
-    'is-invalid': ((error && touched && password !== '') || authFailed)
+const getConfirmPasswordInputClass = (error, touched, password, confirmPassword, authFailed) => cn('form-control', {
+    'is-invalid': ((error && touched && password !== '') || (error && confirmPassword !== '') || authFailed)
   });
-
-const getAuthHeader = () => {
-    const userId = JSON.parse(localStorage.getItem('userId'));
-    if (userId && userId.token) {
-      return { Authorization: `Bearer ${userId.token}` };
-    }
-    return {};
-};
 
 
 const SignupPage = () => {
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const location = useLocation();
 
     const { t } = useTranslation();
 
     const auth = useAuth();
     const [authFailed, setAuthFailed] = useState(false);
-    const navigate = useNavigate();
     const inputEl = useRef();
     useEffect(() => {
       inputEl.current.focus();
@@ -51,23 +40,7 @@ const SignupPage = () => {
               const res = await axios.post(routes.signupPath(), values);
               localStorage.setItem('userId', JSON.stringify(res.data));
               auth.logIn();
-              await axios.get(routes.usersPath(), { headers: getAuthHeader() })
-                  .then(({data}) => {
-                  const {
-                      channels,
-                      currentChannelId,
-                      messages,
-                  } = data;
-          
-                  const currentChannel = channels.find((channel) => channel.id === currentChannelId)
-          
-                  dispatch(channelsActions.addChannels(channels));
-                  dispatch(messagesActions.addMessages(messages));
-                  dispatch(currentChannelActions.setCurrentChannel(currentChannel));
-                  navigate('/');
-                  })
-                  .catch((err) => console.log(err))
-              navigate('/');
+              navigate('/', { state: { from: location } });
             } catch (err) {
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 409) {
@@ -132,7 +105,8 @@ const SignupPage = () => {
                             required
                             placeholder='Пароли должны совпадать'
                             id="confirmPassword"
-                            className={getConfirmPasswordInputClass(errors.confirmPassword, touched.confirmPassword, values.password, authFailed)}
+                            className={getConfirmPasswordInputClass(errors.confirmPassword, touched.confirmPassword,
+                            values.password, values.confirmPassword, authFailed)}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.confirmPassword}

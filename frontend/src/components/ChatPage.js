@@ -10,11 +10,32 @@ import { EmitsContext } from '../contexts/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
 import { actions as modalActions } from '../store/modalSlice.js';
+import routes from '../routes.js';
+import useAuth from '../hooks/index.js';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { actions as channelsActions } from '../store/channelsSlice.js';
+import { actions as messagesActions } from '../store/messagesSlice.js';
+import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 
+const getAuthHeader = () => {
+    const userId = JSON.parse(localStorage.getItem('userId'));
+    if (userId && userId.token) {
+      return { Authorization: `Bearer ${userId.token}` };
+    }
+    return {};
+};
+
+
 const ChatPage = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname;
+    const auth = useAuth();
+
     LeoProfanity.loadDictionary('ru')
 
     const { t } = useTranslation();
@@ -25,6 +46,38 @@ const ChatPage = () => {
     }, []);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await axios.get(routes.usersPath(), { headers: getAuthHeader() })
+            .then(({data}) => {
+            const {
+                channels,
+                currentChannelId,
+                messages,
+            } = data;
+            
+            console.log(data);
+    
+            const currentChannel = channels.find((channel) => channel.id === currentChannelId)
+    
+            dispatch(channelsActions.addChannels(channels));
+            dispatch(messagesActions.addMessages(messages));
+            dispatch(currentChannelActions.setCurrentChannel(currentChannel));
+            })
+            .catch((err) => {
+                if (err.isAxiosError && err.response.status === 401) {
+                    auth.logOut()
+                    navigate(from)
+            } else {
+                toast.error(t('toast.networkError', {
+                    autoClose: 5000
+                }))
+            }
+        })
+        }
+        fetchData();
+    })
 
     const channels = useSelector(channelsSelectors.selectAll);
     const messages = useSelector(messagesSelectors.selectAll);

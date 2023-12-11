@@ -5,32 +5,19 @@ import { loginSchema } from '../schemas/index.js';
 import cn from 'classnames';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { actions as channelsActions } from '../store/channelsSlice.js';
-import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
-import { actions as messagesActions } from '../store/messagesSlice.js';
 import { toast } from 'react-toastify';
 
 const getInputClass = (error, touched, authFailed) => cn('form-control', {
     'is-invalid': (error && touched) || authFailed,
   });
 
-const getAuthHeader = () => {
-    const userId = JSON.parse(localStorage.getItem('userId'));
-    if (userId && userId.token) {
-      return { Authorization: `Bearer ${userId.token}` };
-    }
-    return {};
-};
-
 const LoginPage = () => {
     const { t } = useTranslation();
 
-    const dispatch = useDispatch();
-
     const navigate = useNavigate();
+    const location = useLocation();
 
     const auth = useAuth();
 
@@ -52,26 +39,11 @@ const LoginPage = () => {
         onSubmit: async (values) => {
             setAuthFailed(false);
             try {
-              const res = await axios.post(routes.loginPath(), values);
-              localStorage.setItem('userId', JSON.stringify(res.data));
-              auth.logIn();
-              await axios.get(routes.usersPath(), { headers: getAuthHeader() })
-                  .then(({data}) => {
-                  const {
-                      channels,
-                      currentChannelId,
-                      messages,
-                  } = data;
-          
-                  const currentChannel = channels.find((channel) => channel.id === currentChannelId)
-          
-                  dispatch(channelsActions.addChannels(channels));
-                  dispatch(messagesActions.addMessages(messages));
-                  dispatch(currentChannelActions.setCurrentChannel(currentChannel));
-                  navigate('/');
-                  })
-                  .catch((err) => console.log(err))
-            } catch (err) {
+              const res = await axios.post(routes.loginPath(), values)
+                localStorage.setItem('userId', JSON.stringify(res.data));
+                auth.logIn();
+                navigate('/', { state: { from: location } });
+              } catch (err) {
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 401) {
                 setAuthFailed(true);
