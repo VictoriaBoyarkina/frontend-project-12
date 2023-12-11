@@ -90,6 +90,7 @@ const SignupPage = () => {
                             name="password"
                             autoComplete='new-password'
                             required
+                            type='password'
                             placeholder='Не менее 6 символов'
                             id="password"
                             className={getInputClass(errors.password, touched.password, authFailed)}
@@ -106,6 +107,7 @@ const SignupPage = () => {
                             autoComplete='new-password'
                             required
                             placeholder='Пароли должны совпадать'
+                            type='password'
                             id="confirmPassword"
                             className={getConfirmPasswordInputClass(errors.confirmPassword, touched.confirmPassword,
                             values.password, values.confirmPassword, authFailed)}
