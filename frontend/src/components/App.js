@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from 'react
 import React, { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import i18next from './../i18next.js'
-import ChatPage from './ChatPage.js';
+import ChatPage from './chat/ChatPage.js';
 import SignupPage from './SignupPage.js';
 import LoginPage from './LoginPage';
 import NotFoundPage from './NotFoundPage';
@@ -12,7 +12,7 @@ import useAuth from '../hooks/index.js';
 import { io } from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as channelsActions } from '../store/channelsSlice.js';
-import { actions as currentChannelActions } from '../store/currentChannelSlice.js';
+import { actions as currentChannelIdActions } from '../store/currentChannelIdSlice.js';
 import { actions as messagesActions } from '../store/messagesSlice.js';
 import getModal from './modals/index.js';
 import { ToastContainer} from 'react-toastify';
@@ -60,7 +60,7 @@ function App() {
 
   socket.on('newChannel', (channel) => {
     dispatch(channelsActions.addChannel(channel));
-    dispatch(currentChannelActions.setCurrentChannel(channel));
+    dispatch(currentChannelIdActions.setCurrentChannelId(channel.id));
   });
 
   socket.on('removeChannel', (channel) => {

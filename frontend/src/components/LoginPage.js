@@ -44,15 +44,17 @@ const LoginPage = () => {
                 auth.logIn();
                 navigate('/', { state: { from: location } });
               } catch (err) {
+                console.log(err.message)
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 401) {
                 setAuthFailed(true);
                 inputEl.current.select();
                 return;
-              } else {
-                toast.error(t('toast.networkError', {
+              }
+              if (err.message === 'Network Error') {
+                toast.error(t('toast.networkError'), {
                     autoClose: 5000
-                }))
+                })
               }
             }
           },

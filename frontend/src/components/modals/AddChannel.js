@@ -7,6 +7,7 @@ import { actions as modalActions } from '../../store/modalSlice.js';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { getModalSchema } from '../../schemas/index.js'
+import { actions as currentChannelIdActions } from '../../store/currentChannelIdSlice.js';
 
 const Addchannel = () => {
     const { t } = useTranslation();
@@ -21,7 +22,8 @@ const Addchannel = () => {
     const dispatch = useDispatch();
 
     const channels = useSelector(channelsSelectors.selectAll);
-    const channelsNames = channels.map((channels) => channels.name)
+    const channelsNames = channels.map((channels) => channels.name);
+    const { currentChannelId } = useSelector((state) => state.currentChannelId);
 
 
     const closeModal = () => {
@@ -33,27 +35,21 @@ const Addchannel = () => {
         validationSchema: getModalSchema(channelsNames),
         validateOnChange: false,
         validateOnBlur: false, 
-        onSubmit: async (values) => {
+        onSubmit: (values) => {
             setSubmitting(true);
-            try { const channel = { name: values.name, removable: true };
-            socket.emit("newChannel", channel, (response) => {
-                if (response.status === 'ok') {
-                    dispatch(modalActions.closeModal());
-                    values.name = '';
-                    toast.success(t('toast.addChannel', {
-                        autoClose: 5000
-                        }
-                        ))
-                } else {
-                    setSubmitting(false);
+            const channel = { name: values.name, removable: true }
+            socket.emit('newChannel', channel, (response) => {
+                const { status, data } = response;
+                console.log(status);
+                if (data.id === currentChannelId) {
+                    dispatch(currentChannelIdActions.setCurrentChannelId(1));
                 }
-                });
-            } catch (err) {
-              setSubmitting(false);
-              throw err;
+                setSubmitting(false);
+              });
+              toast.success(t('toast.addChannel'));
+              dispatch(modalActions.closeModal());
             }
-          },
-    });
+        });
 
     const inputClasses = (!errors.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid'
 

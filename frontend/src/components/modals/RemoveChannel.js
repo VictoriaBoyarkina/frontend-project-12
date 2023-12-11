@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { EmitsContext } from '../../contexts/index.js';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,21 +16,20 @@ const RemoveChannel = () => {
         dispatch(modalActions.closeModal());
     };
 
+    const [isSubmitting, setSubmitting] = useState(false);
+
     const { modal } = useSelector((state) => state.modal);
     const { channelId } = modal;
 
-    const removeChannel = (e) => {
-        e.currentTarget.disabled = true;
+    const removeChannel = () => {
+        setSubmitting(true);
         socket.emit("removeChannel", { id: channelId }, (response) => {
-            if (response.status === 'ok') {
-                dispatch(modalActions.closeModal());
-                toast.success(t('toast.deleteChannel', {
-                    autoClose: 5000
-                }))
-            } else {
-                e.currentTarget.disabled = false;
-            }
-        });
+            console.log(response.status);
+            setSubmitting(false)})
+        dispatch(modalActions.closeModal());
+        toast.success(t('toast.deleteChannel'), {
+            autoClose: 5000
+        })
     }
 
     return (
@@ -47,7 +46,7 @@ const RemoveChannel = () => {
                             <p className="lead">{t('areYouSure')}</p>
                             <div className="d-flex justify-content-end">
                                 <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>{t('buttons.cancel')}</button>
-                                <button type="button" className="btn btn-danger" onClick={removeChannel}>{t('buttons.delete')}</button>
+                                <button type="button" className="btn btn-danger" disabled={isSubmitting} onClick={removeChannel}>{t('buttons.delete')}</button>
                             </div>
                         </div>
                     </div>

@@ -42,16 +42,18 @@ const SignupPage = () => {
               auth.logIn();
               navigate('/', { state: { from: location } });
             } catch (err) {
+                console.log(err.message)
               setSubmitting(false);
               if (err.isAxiosError && err.response.status === 409) {
                 setAuthFailed(true);
                 errors.confirmPassword = 'errors.username.unique'
                 return;
-              } else {
-                toast.error(t('toast.networkError', {
+              }              
+              if (err.message === 'Network Error') {
+                toast.error(t('toast.networkError'), {
                     autoClose: 5000
-                }))
-            }
+                })
+              }
           }
         }
     });

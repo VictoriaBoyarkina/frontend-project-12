@@ -44,9 +44,9 @@ const RenameChannel = () => {
                 if (response.status === 'ok') {
                     dispatch(modalActions.closeModal());
                     values.name = '';
-                    toast.success(t('toast.renameChannel', {
+                    toast.success(t('toast.renameChannel'), {
                         autoClose: 5000
-                        }))
+                        })
                     } else {
                         setSubmitting(false);
                     }
