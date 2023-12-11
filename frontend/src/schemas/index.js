@@ -13,8 +13,8 @@ const loginSchema = yup.object().shape({
 
 const signupSchema = yup.object().shape({
     username: yup.string().required('errors.required').min(3, 'errors.username.min').max(20, 'errors.username.max').trim(),
-    password: yup.string().required('errors.required').min(6, 'errors.password.min'),
-    confirmPassword: yup.string()
+    password: yup.string().trim().required('errors.required').min(6, 'errors.password.min'),
+    confirmPassword: yup.string().trim()
      .oneOf([yup.ref('password'), null], 'errors.confirmPassword.matchPassword')
      .required('errors.confirmPassword.required')
 });
