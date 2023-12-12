@@ -118,7 +118,7 @@ const SignupPage = () => {
                             <div className="invalid-tooltip">
                                 {t(errors.confirmPassword)}
                             </div>
-                            <label className='form-label' htmlFor="password">{t('confirmPassword')}</label>
+                            <label className='form-label' htmlFor="confirmPassword">{t('confirmPassword')}</label>
                         </div>
                         <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('buttons.signup')}</button>
                     </form>

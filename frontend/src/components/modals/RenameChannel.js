@@ -36,26 +36,19 @@ const RenameChannel = () => {
         initialValues: { name: currentChannel.name},
         validationSchema: getModalSchema(channelsNames),
         validateOnChange: false,
-        validateOnBlur: false, 
-        onSubmit: async (values) => {
+        validateOnBlur: false,
+        onSubmit: (values) => {
             setSubmitting(true);
-            try { const channel = { id: currentChannel.id, name: values.name };
+            const channel = { id: currentChannel.id, name: values.name };
             socket.emit("renameChannel", channel, (response) => {
-                if (response.status === 'ok') {
-                    dispatch(modalActions.closeModal());
-                    values.name = '';
-                    toast.success(t('toast.renameChannel'), {
-                        autoClose: 5000
-                        })
-                    } else {
-                        setSubmitting(false);
-                    }
-                });
-            } catch (err) {
+                const { status } = response;
+                console.log(status);
+              });
               setSubmitting(false);
+              toast.success(t('toast.renameChannel'));
+              dispatch(modalActions.closeModal());
             }
-        },
-    });
+        });
 
     const inputClasses = (!errors.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid'
 

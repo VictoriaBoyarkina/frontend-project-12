@@ -44,8 +44,8 @@ const Addchannel = () => {
                 if (data.id === currentChannelId) {
                     dispatch(currentChannelIdActions.setCurrentChannelId(1));
                 }
-                setSubmitting(false);
               });
+              setSubmitting(false);
               toast.success(t('toast.addChannel'));
               dispatch(modalActions.closeModal());
             }

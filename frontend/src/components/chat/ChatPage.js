@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //import axios from 'axios';
 //import routes from '../routes.js';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch} from 'react-redux';
 import { actions as currentChannelIdActions } from '../../store/currentChannelIdSlice.js';
@@ -21,6 +21,7 @@ const ChatPage = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const auth = useAuth();
+    const [loading, setLoading] = useState(false);
 
     let from = location.state?.from?.pathname;
 
@@ -35,6 +36,7 @@ const ChatPage = () => {
     
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             await axios.get(routes.usersPath(), { headers: getAuthHeader() })
             .then(({data}) => {
                 const { channels, currentChannelId, messages } = data;
@@ -42,6 +44,7 @@ const ChatPage = () => {
                 dispatch(channelsActions.addChannels(channels));
                 dispatch(messagesActions.addMessages(messages));
                 dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
+            setLoading(false);
             })
             .catch((err) => {
                 console.log(err.message)
@@ -59,7 +62,13 @@ const ChatPage = () => {
         fetchData();
     }, [dispatch])
 
-    return (
+    return loading ? (
+        <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
+      </div>
+    ) : (
         <div className="container h-100 my-4 overflow-hidden rounded shadow">
             <div className="row h-100 bg-white flex-md-row">
                 <Channels/>
