@@ -15,8 +15,6 @@ const Messages = () => {
       inputEl.current.focus();
     }, []);
 
-    LeoProfanity.loadDictionary('ru')
-
     const { t } = useTranslation();
     
     const messages = useSelector(messagesSelectors.selectAll);
