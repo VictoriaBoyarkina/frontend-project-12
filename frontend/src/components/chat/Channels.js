@@ -47,7 +47,12 @@ const Channels = () => {
                     </Dropdown.Menu>
                 </Dropdown>
             </li>
-        ) : renderButton()
+        ) : (
+            <li className="nav-item w-100" key={channel.id}>
+                {renderButton()}
+            </li>
+
+        )
     };
 
     return (

@@ -41,8 +41,7 @@ const RenameChannel = () => {
             setSubmitting(true);
             const channel = { id: currentChannel.id, name: values.name };
             socket.emit("renameChannel", channel, (response) => {
-                const { status } = response;
-                console.log(status);
+                console.log(response.status);
               });
               setSubmitting(false);
               toast.success(t('toast.renameChannel'));
@@ -71,7 +70,7 @@ const RenameChannel = () => {
                                 onBlur={handleBlur}
                                 value={values.name}/>
                                 <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
-                                <div className="invalid-feedback" style={{ display: 'block' }}>{errors.name}</div>
+                                <div className="invalid-feedback" style={{ display: 'block' }}>{t(errors.name)}</div>
                                 <div className="d-flex justify-content-end">
                                     <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>{t('buttons.cancel')}</button>
                                     <button type="submit" className="btn btn-primary">{t('buttons.send')}</button>
