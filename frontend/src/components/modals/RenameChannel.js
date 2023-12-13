@@ -14,6 +14,7 @@ const RenameChannel = () => {
     const inputEl = useRef();
     useEffect(() => {
       inputEl.current.focus();
+      inputEl.current.select();
     }, []);
 
     const { socket } = useContext(EmitsContext);
