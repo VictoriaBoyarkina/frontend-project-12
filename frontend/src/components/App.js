@@ -16,6 +16,7 @@ import { actions as messagesActions } from '../store/messagesSlice.js';
 import getModal from './modals/index.js';
 import { ToastContainer } from 'react-toastify';
 import { Provider, ErrorBoundary } from '@rollbar/react';
+import { actions as currentChannelIdActions } from '../store/currentChannelIdSlice.js';
 
 const rollbarConfig = {
   accessToken: '1d2a52991db34aa89efbdd8df5e0651a',
@@ -50,6 +51,8 @@ const PrivateRoute = ({ children }) => {
 function App() {
   const dispatch = useDispatch();
 
+  const { currentChannelId } = useSelector((state) => state.currentChannelId);
+
   const socket = io({
   });
 
@@ -59,9 +62,13 @@ function App() {
 
   socket.on('newChannel', (channel) => {
     dispatch(channelsActions.addChannel(channel));
+    dispatch(currentChannelIdActions.setCurrentChannelId(channel.id));
   });
 
   socket.on('removeChannel', (channel) => {
+    if (channel.id === currentChannelId) {
+      dispatch(currentChannelIdActions.setCurrentChannelId(1));
+  }
     dispatch(channelsActions.removeChannel(channel.id));
   });
 

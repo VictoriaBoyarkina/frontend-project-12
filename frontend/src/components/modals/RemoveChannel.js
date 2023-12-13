@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as modalActions } from '../../store/modalSlice.js';
 import { toast } from 'react-toastify';
-import { actions as channelsActions } from '../../store/channelsSlice.js';
-import { actions as currentChannelIdActions } from '../../store/currentChannelIdSlice.js';
 
 const RemoveChannel = () => {
     const { t } = useTranslation();
@@ -13,7 +11,6 @@ const RemoveChannel = () => {
     const { socket } = useContext(EmitsContext);
 
     const dispatch = useDispatch();
-    const { currentChannelId } = useSelector((state) => state.currentChannelId);
 
     const closeModal = () => {
         dispatch(modalActions.closeModal());
@@ -28,15 +25,11 @@ const RemoveChannel = () => {
         setSubmitting(true);
         socket.emit("removeChannel", { id: channelId }, (response) => {
             console.log(response.status);
+            setSubmitting(false)
+            dispatch(modalActions.closeModal());
+            toast.success(t('toast.deleteChannel'), {
+                autoClose: 5000
             })
-        if (channelId === currentChannelId) {
-            dispatch(currentChannelIdActions.setCurrentChannelId(1));
-        }
-        dispatch(channelsActions.removeChannel(channelId));
-        setSubmitting(false)
-        dispatch(modalActions.closeModal());
-        toast.success(t('toast.deleteChannel'), {
-            autoClose: 5000
         })
     }
 

@@ -7,7 +7,6 @@ import { actions as modalActions } from '../../store/modalSlice.js';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { getModalSchema } from '../../schemas/index.js'
-import { actions as currentChannelIdActions } from '../../store/currentChannelIdSlice.js';
 
 const Addchannel = () => {
     const { t } = useTranslation();
@@ -37,13 +36,13 @@ const Addchannel = () => {
             setSubmitting(true);
             const channel = { name: values.name, removable: true }
             socket.emit('newChannel', channel, (response) => {
-                const { status, data } = response;
+                const { status } = response;
                 console.log(status);
-                dispatch(currentChannelIdActions.setCurrentChannelId(data.id));
+                toast.success(t('toast.addChannel'));
+                setSubmitting(false);
+                dispatch(modalActions.closeModal());
               });
-              setSubmitting(false);
-              toast.success(t('toast.addChannel'));
-              dispatch(modalActions.closeModal());
+              
             }
         });
 

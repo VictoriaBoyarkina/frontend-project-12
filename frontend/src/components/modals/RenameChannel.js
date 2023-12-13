@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectors as channelsSelectors} from '../../store/channelsSlice.js';
 import { actions as modalActions } from '../../store/modalSlice.js';
 import { useFormik } from 'formik';
-import { actions as channelsActions } from '../../store/channelsSlice.js';
 import { getModalSchema } from '../../schemas/index.js';
 import { toast } from 'react-toastify';
 
@@ -44,16 +43,10 @@ const RenameChannel = () => {
             const channel = { id: currentChannel.id, name: values.name };
             socket.emit("renameChannel", channel, (response) => {
                 console.log(response.status);
+                setSubmitting(false);
+                toast.success(t('toast.renameChannel'));
+                dispatch(modalActions.closeModal());
               });
-              dispatch(channelsActions.updateChannel({
-                id: currentChannel.id,
-                changes: {
-                  name: values.name,
-                },
-              }));
-              setSubmitting(false);
-              toast.success(t('toast.renameChannel'));
-              dispatch(modalActions.closeModal());
             }
         });
 
