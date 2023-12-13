@@ -12,10 +12,9 @@ import useAuth from '../hooks/index.js';
 import { io } from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as channelsActions } from '../store/channelsSlice.js';
-import { actions as currentChannelIdActions } from '../store/currentChannelIdSlice.js';
 import { actions as messagesActions } from '../store/messagesSlice.js';
 import getModal from './modals/index.js';
-import { ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { Provider, ErrorBoundary } from '@rollbar/react';
 
 const rollbarConfig = {
@@ -60,7 +59,6 @@ function App() {
 
   socket.on('newChannel', (channel) => {
     dispatch(channelsActions.addChannel(channel));
-    dispatch(currentChannelIdActions.setCurrentChannelId(channel.id));
   });
 
   socket.on('removeChannel', (channel) => {

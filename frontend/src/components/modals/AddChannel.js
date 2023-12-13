@@ -23,8 +23,6 @@ const Addchannel = () => {
 
     const channels = useSelector(channelsSelectors.selectAll);
     const channelsNames = channels.map((channels) => channels.name);
-    const { currentChannelId } = useSelector((state) => state.currentChannelId);
-
 
     const closeModal = () => {
         dispatch(modalActions.closeModal());
@@ -41,9 +39,7 @@ const Addchannel = () => {
             socket.emit('newChannel', channel, (response) => {
                 const { status, data } = response;
                 console.log(status);
-                if (data.id === currentChannelId) {
-                    dispatch(currentChannelIdActions.setCurrentChannelId(1));
-                }
+                dispatch(currentChannelIdActions.setCurrentChannelId(data.id));
               });
               setSubmitting(false);
               toast.success(t('toast.addChannel'));
