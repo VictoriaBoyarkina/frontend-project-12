@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 //import axios from 'axios';
 //import routes from '../routes.js';
 import LeoProfanity from 'leo-profanity';

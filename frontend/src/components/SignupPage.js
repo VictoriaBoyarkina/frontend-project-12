@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { signupSchema } from '../schemas/index.js';
 import { useTranslation } from 'react-i18next';

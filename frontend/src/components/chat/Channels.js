@@ -41,7 +41,7 @@ const Channels = () => {
                 <Dropdown className='d-flex' as={ButtonGroup}>
                    {renderButton()}
                     <Dropdown.Toggle split variant={variant} className="flex-grow-0" id="dropdown-split-basic">
-                        <span class="visually-hidden">{t('handleChannel')}</span>
+                        <span className="visually-hidden">{t('handleChannel')}</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'removing', channelId: channel.id})}>{t('buttons.delete')}</Dropdown.Item>
