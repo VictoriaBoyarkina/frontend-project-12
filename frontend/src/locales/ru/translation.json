@@ -16,6 +16,7 @@
       "navBar": {
         "brand": "Hexlet Chat"
       },
+      "handleChannel": "Управление каналом",
       "channelName": "Имя канала",
       "channels": "Каналы",
       "deleteChannel": "Удалить канал",

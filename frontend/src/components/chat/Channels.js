@@ -44,6 +44,7 @@ const Channels = () => {
                     <Dropdown.Menu>
                         <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'removing', channelId: channel.id})}>{t('buttons.delete')}</Dropdown.Item>
                         <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'renaming', channelId: channel.id})}>{t('buttons.rename')}</Dropdown.Item>
+                        <span class="visually-hidden">{t('handleChannel')}</span>
                     </Dropdown.Menu>
                 </Dropdown>
             </li>
