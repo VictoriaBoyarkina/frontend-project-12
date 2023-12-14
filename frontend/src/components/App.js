@@ -1,7 +1,6 @@
-import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Link, Navigate, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import i18next from './../i18next.js'
 import ChatPage from './chat/ChatPage.js';
 import SignupPage from './SignupPage.js';
 import LoginPage from './LoginPage';
@@ -17,11 +16,12 @@ import getModal from './modals/index.js';
 import { ToastContainer } from 'react-toastify';
 import { Provider, ErrorBoundary } from '@rollbar/react';
 import { actions as currentChannelIdActions } from '../store/currentChannelIdSlice.js';
+import i18next from '../i18next.js';
 
 const rollbarConfig = {
   accessToken: '1d2a52991db34aa89efbdd8df5e0651a',
   environment: 'production',
-  };
+};
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -48,7 +48,19 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
-function App() {
+const LogOutButton = () => {
+  const auth = useAuth();
+  const signOut = () => {
+    auth.logOut();
+    localStorage.clear()
+  }
+  
+  return (
+    auth.loggedIn ? <button type="button" onClick={signOut} className="btn btn-primary rounded-1">{i18next.t('buttons.logout')}</button> : null
+  );
+};
+
+const  App = () => {
   const dispatch = useDispatch();
 
   const { currentChannelId } = useSelector((state) => state.currentChannelId);
@@ -68,7 +80,7 @@ function App() {
   socket.on('removeChannel', (channel) => {
     if (channel.id === currentChannelId) {
       dispatch(currentChannelIdActions.setCurrentChannelId(1));
-  }
+    }
     dispatch(channelsActions.removeChannel(channel.id));
   });
 
@@ -81,23 +93,13 @@ function App() {
     }));
   });
 
+  useEffect(() => {
+    document.body.classList.add('bg-light', 'h-100');
+  });
+    
   useEffect(()  => {
-    document.body.classList.add('bg-light', 'h-100')});
-    
-    useEffect(()  => {
-      document.documentElement.classList.add('h-100')});
-
-  const LogOutButton = () => {
-    const auth = useAuth();
-    const signOut = () => {
-      auth.logOut();
-      localStorage.clear()
-    }
-    
-    return (
-      auth.loggedIn ? <button type="button" onClick={signOut} className="btn btn-primary rounded-1">{i18next.t('buttons.logout')}</button> : null
-    );
-  };
+    document.documentElement.classList.add('h-100');
+  });
 
   const { modal } = useSelector((state) => state.modal);
 
@@ -115,38 +117,38 @@ function App() {
         <AuthProvider>
           <I18nextProvider i18n={i18next} defaultNS={'translation'}>
             <BrowserRouter>
-                  <EmitsContext.Provider value={{socket}}>
-                      <div className='h-100' id='chat'>
-                          <div className='d-flex flex-column h-100'>
-                            <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
-                              <div className='container'>
-                                <Navbar.Brand as={Link} to="/">{i18next.t('navBar.brand')}</Navbar.Brand>
-                                <LogOutButton/>
-                              </div>
-                            </Navbar>
-                              <Routes>
-                                  <Route path="/" element={(
-                                    <PrivateRoute>
-                                      <ChatPage/>
-                                    </PrivateRoute>
-                                  )} />  
-                                  <Route path="/login" element={<LoginPage />} />
-                                  <Route path='/signup' element={<SignupPage />} />
-                                  <Route path='*' element={<NotFoundPage />} />
-                              </Routes>
-                          </div>
-                        </div>
-                        <ToastContainer 
-                        position="top-right"
-                        />
-                      {renderModal()}
-                  </EmitsContext.Provider>
+              <EmitsContext.Provider value={{socket}}>
+                <div className='h-100' id='chat'>
+                  <div className='d-flex flex-column h-100'>
+                    <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
+                      <div className='container'>
+                        <Navbar.Brand as={Link} to="/">{i18next.t('navBar.brand')}</Navbar.Brand>
+                        <LogOutButton/>
+                      </div>
+                    </Navbar>
+                    <Routes>
+                      <Route path="/" element={(
+                        <PrivateRoute>
+                          <ChatPage/>
+                        </PrivateRoute>
+                        )}/>
+                      <Route path="/login" element={<LoginPage />} />
+                      <Route path='/signup' element={<SignupPage />} />
+                      <Route path='*' element={<NotFoundPage />} />
+                    </Routes>
+                    </div>
+                    </div>
+                    <ToastContainer 
+                    position="top-right"
+                    />
+                    {renderModal()}
+              </EmitsContext.Provider>
             </BrowserRouter>
           </I18nextProvider>
         </AuthProvider>
       </ErrorBoundary>
     </Provider>
   )
-}
+};
 
 export default App;

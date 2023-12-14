@@ -17,7 +17,6 @@ const getConfirmPasswordInputClass = (error, touched, password, confirmPassword,
     'is-invalid': ((error && touched && password !== '') || (error && confirmPassword !== '') || authFailed)
   });
 
-
 const SignupPage = () => {
     const navigate = useNavigate();
 
