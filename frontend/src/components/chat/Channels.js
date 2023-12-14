@@ -40,11 +40,12 @@ const Channels = () => {
             <li className="nav-item w-100" key={channel.id}>
                 <Dropdown className='d-flex' as={ButtonGroup}>
                    {renderButton()}
-                    <Dropdown.Toggle split variant={variant} className="flex-grow-0" id="dropdown-split-basic"/>
+                    <Dropdown.Toggle split variant={variant} className="flex-grow-0" id="dropdown-split-basic">
+                        <span class="visually-hidden">{t('handleChannel')}</span>
+                    </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'removing', channelId: channel.id})}>{t('buttons.delete')}</Dropdown.Item>
                         <Dropdown.Item href="#" onClick={() => handleClickModal({name: 'renaming', channelId: channel.id})}>{t('buttons.rename')}</Dropdown.Item>
-                        <span class="visually-hidden">{t('handleChannel')}</span>
                     </Dropdown.Menu>
                 </Dropdown>
             </li>
