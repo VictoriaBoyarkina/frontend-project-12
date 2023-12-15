@@ -56,7 +56,8 @@ const ChatPage = () => {
                 });
         };
         fetchData();
-    }, [dispatch, auth, from, navigate, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch]);
 
     return loading ? (
         <div className="d-flex justify-content-center">
