@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react';
-import { EmitsContext } from '../../contexts/index.js';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions as modalActions } from '../../store/modalSlice.js';
 import { toast } from 'react-toastify';
+import { actions as modalActions } from '../../store/modalSlice.js';
+import { EmitsContext } from '../../contexts/index.js';
 
 const RemoveChannel = () => {
     const { t } = useTranslation();
@@ -23,12 +23,12 @@ const RemoveChannel = () => {
 
     const removeChannel = () => {
         setSubmitting(true);
-        socket.emit("removeChannel", { id: channelId }, (response) => {
+        socket.emit('removeChannel', { id: channelId }, (response) => {
             console.log(response.status);
             setSubmitting(false);
             dispatch(modalActions.closeModal());
             toast.success(t('toast.deleteChannel'), {
-                autoClose: 5000
+                autoClose: 5000,
             });
         });
     };
@@ -36,18 +36,24 @@ const RemoveChannel = () => {
     return (
         <>
             <div className="fade modal-backdrop show"></div>
-            <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{display: "block"}}>
+            <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }}>
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <div className="modal-title h4">{t('deleteChannel')}</div>
-                            <button type="button" onClick={closeModal} aria-label="Close" data-bs-dismiss="modal" className="btn btn-close"></button>
+                            <button type="button" onClick={closeModal} aria-label="Close" data-bs-dismiss="modal"
+                                className="btn btn-close"></button>
                         </div>
                         <div className="modal-body">
                             <p className="lead">{t('areYouSure')}</p>
                             <div className="d-flex justify-content-end">
-                                <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>{t('buttons.cancel')}</button>
-                                <button type="button" className="btn btn-danger" disabled={isSubmitting} onClick={removeChannel}>{t('buttons.delete')}</button>
+                                <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>
+                                    {t('buttons.cancel')}
+                                </button>
+                                <button type="button" className="btn btn-danger"
+                                    disabled={isSubmitting} onClick={removeChannel}>
+                                    {t('buttons.delete')}
+                                </button>
                             </div>
                         </div>
                     </div>

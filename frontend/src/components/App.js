@@ -1,20 +1,22 @@
-import {BrowserRouter, Routes, Route, Link, Navigate, useLocation} from 'react-router-dom';
+import {
+    BrowserRouter, Routes, Route, Link, Navigate, useLocation,
+} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
+import { Navbar } from 'react-bootstrap';
+import { io } from 'socket.io-client';
+import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import { Provider, ErrorBoundary } from '@rollbar/react';
 import ChatPage from './chat/ChatPage.js';
 import SignupPage from './SignupPage.js';
 import LoginPage from './LoginPage';
 import NotFoundPage from './NotFoundPage';
-import { Navbar } from 'react-bootstrap';
 import { AuthContext, EmitsContext } from '../contexts';
 import useAuth from '../hooks/index.js';
-import { io } from 'socket.io-client';
-import { useDispatch, useSelector } from 'react-redux';
 import { actions as channelsActions } from '../store/channelsSlice.js';
 import { actions as messagesActions } from '../store/messagesSlice.js';
 import getModal from './modals/index.js';
-import { ToastContainer } from 'react-toastify';
-import { Provider, ErrorBoundary } from '@rollbar/react';
 import { actions as currentChannelIdActions } from '../store/currentChannelIdSlice.js';
 import i18next from '../i18next.js';
 
@@ -56,11 +58,12 @@ const LogOutButton = () => {
     };
 
     return (
-        auth.loggedIn ? <button type="button" onClick={signOut} className="btn btn-primary rounded-1">{i18next.t('buttons.logout')}</button> : null
+        auth.loggedIn ? <button type="button" onClick={signOut} className="btn btn-primary rounded-1">
+            {i18next.t('buttons.logout')} </button> : null
     );
 };
 
-const  App = () => {
+const App = () => {
     const dispatch = useDispatch();
 
     const { currentChannelId } = useSelector((state) => state.currentChannelId);
@@ -97,7 +100,7 @@ const  App = () => {
         document.body.classList.add('bg-light', 'h-100');
     });
 
-    useEffect(()  => {
+    useEffect(() => {
         document.documentElement.classList.add('h-100');
     });
 
@@ -117,12 +120,14 @@ const  App = () => {
                 <AuthProvider>
                     <I18nextProvider i18n={i18next} defaultNS={'translation'}>
                         <BrowserRouter>
-                            <EmitsContext.Provider value={{socket}}>
+                            <EmitsContext.Provider value={{ socket }}>
                                 <div className='h-100' id='chat'>
                                     <div className='d-flex flex-column h-100'>
                                         <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
                                             <div className='container'>
-                                                <Navbar.Brand as={Link} to="/">{i18next.t('navBar.brand')}</Navbar.Brand>
+                                                <Navbar.Brand as={Link} to="/">
+                                                    {i18next.t('navBar.brand')}
+                                                </Navbar.Brand>
                                                 <LogOutButton/>
                                             </div>
                                         </Navbar>

@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import { signupSchema } from '../schemas/index.js';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
-import routes from '../routes.js';
-import useAuth from '../hooks/index.js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import useAuth from '../hooks/index.js';
+import routes from '../routes.js';
+import { signupSchema } from '../schemas/index.js';
+import signup from '../images/signup.jpg';
 
 const getInputClass = (error, touched, authFailed) => cn('form-control', {
-    'is-invalid': ((error && touched) || authFailed)
+    'is-invalid': ((error && touched) || authFailed),
 });
 
 const getConfirmPasswordInputClass = (error, touched, password, confirmPassword, authFailed) => cn('form-control', {
-    'is-invalid': ((error && touched && password !== '') || (error && confirmPassword !== '') || authFailed)
+    'is-invalid': ((error && touched && password !== '') || (error && confirmPassword !== '') || authFailed),
 });
 
 const SignupPage = () => {
@@ -31,10 +32,12 @@ const SignupPage = () => {
         inputEl.current.focus();
     }, []);
 
-    const { values, errors, touched, handleBlur,handleChange, handleSubmit, setSubmitting } = useFormik({
+    const {
+        values, errors, touched, handleBlur, handleChange, handleSubmit, setSubmitting,
+    } = useFormik({
         initialValues: { username: '', password: '', confirmPassword: '' },
         validationSchema: signupSchema,
-        onSubmit: async (values) => {
+        onSubmit: async () => {
             try {
                 const res = await axios.post(routes.signupPath(), values);
                 localStorage.setItem('userId', JSON.stringify(res.data));
@@ -47,14 +50,14 @@ const SignupPage = () => {
                     setAuthFailed(true);
                     errors.confirmPassword = 'errors.username.unique';
                     return;
-                }              
+                }
                 if (err.message === 'Network Error') {
                     toast.error(t('toast.networkError'), {
-                        autoClose: 5000
+                        autoClose: 5000,
                     });
                 }
             }
-        }
+        },
     });
 
     return (
@@ -62,9 +65,10 @@ const SignupPage = () => {
             <div className='row justify-content-center align-content-center h-100'>
                 <div className='col-12 col-md-8 col-xxl-6'>
                     <div className='card shadow-sm'>
-                        <div className='card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5'>
+                        <div className='card-body d-flex flex-column flex-md-row
+                        justify-content-around align-items-center p-5'>
                             <div>
-                                <img src="https://frontend-chat-ru.hexlet.app/static/media/avatar_1.6084447160acc893a24d.jpg" className='rounded-circle' alt="Регистрация"/>
+                                <img src={signup} className='rounded-circle' alt="Регистрация"/>
                             </div>
                             <form className="w-50" onSubmit={handleSubmit}>
                                 <h1 className='text-center mb-4'>{t('registration')}</h1>
@@ -108,8 +112,13 @@ const SignupPage = () => {
                                         placeholder='Пароли должны совпадать'
                                         type='password'
                                         id="confirmPassword"
-                                        className={getConfirmPasswordInputClass(errors.confirmPassword, touched.confirmPassword,
-                                            values.password, values.confirmPassword, authFailed)}
+                                        className={getConfirmPasswordInputClass(
+                                            errors.confirmPassword,
+                                            touched.confirmPassword,
+                                            values.password,
+                                            values.confirmPassword,
+                                            authFailed,
+                                        )}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.confirmPassword}
@@ -117,13 +126,17 @@ const SignupPage = () => {
                                     <div className="invalid-tooltip">
                                         {t(errors.confirmPassword)}
                                     </div>
-                                    <label className='form-label' htmlFor="confirmPassword">{t('confirmPassword')}</label>
+                                    <label className='form-label' htmlFor="confirmPassword">
+                                        {t('confirmPassword')}
+                                    </label>
                                 </div>
-                                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('buttons.signup')}</button>
+                                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
+                                    {t('buttons.signup')}
+                                </button>
                             </form>
                         </div>
                     </div>
-            
+
                 </div>
             </div>
         </div>

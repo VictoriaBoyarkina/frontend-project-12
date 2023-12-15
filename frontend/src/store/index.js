@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 import channelsReducer from './channelsSlice';
 import messagesReducer from './messagesSlice';
 import currentChannelIdReducer from './currentChannelIdSlice';
@@ -10,5 +10,5 @@ export default configureStore({
         currentChannelId: currentChannelIdReducer,
         messages: messagesReducer,
         modal: modalReducer,
-    }
+    },
 });

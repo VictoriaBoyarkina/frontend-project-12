@@ -1,4 +1,4 @@
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 const channelsAdapter = createEntityAdapter();
 
@@ -14,7 +14,7 @@ const channelsSlice = createSlice({
         removeChannel: (state, { payload }) => {
             channelsAdapter.removeOne(state, payload);
         },
-    }
+    },
 });
 
 export const { addChannel, addChannels } = channelsSlice.actions;

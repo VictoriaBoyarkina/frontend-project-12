@@ -1,8 +1,8 @@
 import React from 'react';
-import { createRoot }from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import './index.css';
-import App from './components/App';
 import { Provider } from 'react-redux';
+import App from './components/App';
 import store from './store/index.js';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,5 +14,5 @@ root.render(
         <Provider store={store}>
             <App />
         </Provider>
-    </React.StrictMode>
+    </React.StrictMode>,
 );
