@@ -28,7 +28,7 @@ const ChatPage = () => {
     const getAuthHeader = () => {
         const userId = JSON.parse(localStorage.getItem('userId'));
         if (userId && userId.token) {
-          return { Authorization: `Bearer ${userId.token}` };
+            return { Authorization: `Bearer ${userId.token}` };
           
         }
         return {};
@@ -36,38 +36,38 @@ const ChatPage = () => {
     
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true)
+            setLoading(true);
             await axios.get(routes.usersPath(), { headers: getAuthHeader() })
-            .then(({data}) => {
-                const { channels, currentChannelId, messages } = data;
+                .then(({data}) => {
+                    const { channels, currentChannelId, messages } = data;
         
-                dispatch(channelsActions.addChannels(channels));
-                dispatch(messagesActions.addMessages(messages));
-                dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
-            setLoading(false);
-            })
-            .catch((err) => {
-                console.log(err.message)
-                if (err.isAxiosError && err.response.status === 401) {
-                    auth.logOut()
-                    navigate(from)
-            }              
-            if (err.message === 'Network Error') {
-                toast.error(t('toast.networkError'), {
-                    autoClose: 5000
+                    dispatch(channelsActions.addChannels(channels));
+                    dispatch(messagesActions.addMessages(messages));
+                    dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
+                    setLoading(false);
                 })
-              }
-        })
-        }
+                .catch((err) => {
+                    console.log(err.message);
+                    if (err.isAxiosError && err.response.status === 401) {
+                        auth.logOut();
+                        navigate(from);
+                    }              
+                    if (err.message === 'Network Error') {
+                        toast.error(t('toast.networkError'), {
+                            autoClose: 5000
+                        });
+                    }
+                });
+        };
         fetchData();
-    }, [dispatch])
+    }, [dispatch]);
 
     return loading ? (
         <div className="d-flex justify-content-center">
-        <div className="spinner-border" role="status">
-          <span className="sr-only"></span>
+            <div className="spinner-border" role="status">
+                <span className="sr-only"></span>
+            </div>
         </div>
-      </div>
     ) : (
         <div className="container h-100 my-4 overflow-hidden rounded shadow">
             <div className="row h-100 bg-white flex-md-row">
@@ -75,7 +75,7 @@ const ChatPage = () => {
                 <Messages/>
             </div>
         </div>
-    )
+    );
 };
 
 export default ChatPage;

@@ -6,14 +6,14 @@ import { selectors as channelsSelectors} from '../../store/channelsSlice.js';
 import { actions as modalActions } from '../../store/modalSlice.js';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { getModalSchema } from '../../schemas/index.js'
+import { getModalSchema } from '../../schemas/index.js';
 
 const Addchannel = () => {
     const { t } = useTranslation();
 
     const inputEl = useRef();
     useEffect(() => {
-      inputEl.current.focus();
+        inputEl.current.focus();
     }, []);
 
     const { socket } = useContext(EmitsContext);
@@ -25,7 +25,7 @@ const Addchannel = () => {
 
     const closeModal = () => {
         dispatch(modalActions.closeModal());
-    }
+    };
 
     const { values, errors, handleBlur, handleChange, handleSubmit, setSubmitting } = useFormik({
         initialValues: { name: ''},
@@ -34,19 +34,19 @@ const Addchannel = () => {
         validateOnBlur: false, 
         onSubmit: (values) => {
             setSubmitting(true);
-            const channel = { name: values.name, removable: true }
+            const channel = { name: values.name, removable: true };
             socket.emit('newChannel', channel, (response) => {
                 const { status } = response;
                 console.log(status);
                 toast.success(t('toast.addChannel'));
                 setSubmitting(false);
                 dispatch(modalActions.closeModal());
-              });
+            });
               
-            }
-        });
+        }
+    });
 
-    const inputClasses = (!errors.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid'
+    const inputClasses = (!errors.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid';
 
     return (
         <><div className="fade modal-backdrop show"></div><div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }}>
@@ -60,13 +60,13 @@ const Addchannel = () => {
                         <form className="" onSubmit={handleSubmit}>
                             <div>
                                 <input
-                                name="name"
-                                id="name"
-                                ref={inputEl}
-                                className={inputClasses}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.name}/>
+                                    name="name"
+                                    id="name"
+                                    ref={inputEl}
+                                    className={inputClasses}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.name}/>
                                 <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
                                 <div className="invalid-feedback" style={{ display: 'block' }}>{t(errors.name)}</div>
                                 <div className="d-flex justify-content-end">
@@ -79,7 +79,7 @@ const Addchannel = () => {
                 </div>
             </div>
         </div></>
-    )
-}
+    );
+};
 
 export default Addchannel;

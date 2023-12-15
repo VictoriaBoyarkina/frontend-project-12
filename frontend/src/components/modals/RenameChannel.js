@@ -13,8 +13,8 @@ const RenameChannel = () => {
 
     const inputEl = useRef();
     useEffect(() => {
-      inputEl.current.focus();
-      inputEl.current.select();
+        inputEl.current.focus();
+        inputEl.current.select();
     }, []);
 
     const { socket } = useContext(EmitsContext);
@@ -22,7 +22,7 @@ const RenameChannel = () => {
     const dispatch = useDispatch();
 
     const channels = useSelector(channelsSelectors.selectAll);
-    const channelsNames = channels.map((channels) => channels.name)
+    const channelsNames = channels.map((channels) => channels.name);
 
     const { modal } = useSelector((state) => state.modal);
     const { channelId } = modal;
@@ -31,7 +31,7 @@ const RenameChannel = () => {
 
     const closeModal = () => {
         dispatch(modalActions.closeModal());
-    }
+    };
 
     const { values, errors, handleBlur, handleChange, handleSubmit, setSubmitting } = useFormik({
         initialValues: { name: currentChannel.name},
@@ -46,11 +46,11 @@ const RenameChannel = () => {
                 setSubmitting(false);
                 toast.success(t('toast.renameChannel'));
                 dispatch(modalActions.closeModal());
-              });
-            }
-        });
+            });
+        }
+    });
 
-    const inputClasses = (!errors.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid'
+    const inputClasses = (!errors.name) ? 'mb-2 form-control' : 'mb-2 form-control is-invalid';
 
     return (
         <><div className="fade modal-backdrop show"></div><div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }}>
@@ -64,12 +64,12 @@ const RenameChannel = () => {
                         <form className="" onSubmit={handleSubmit}>
                             <div>
                                 <input
-                                ref={inputEl}
-                                name="name" id="name"
-                                className={inputClasses}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.name}/>
+                                    ref={inputEl}
+                                    name="name" id="name"
+                                    className={inputClasses}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.name}/>
                                 <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
                                 <div className="invalid-feedback" style={{ display: 'block' }}>{t(errors.name)}</div>
                                 <div className="d-flex justify-content-end">
@@ -82,7 +82,7 @@ const RenameChannel = () => {
                 </div>
             </div>
         </div></>
-    )
-}
+    );
+};
 
 export default RenameChannel;

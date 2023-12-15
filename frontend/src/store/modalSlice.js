@@ -4,7 +4,7 @@ const modalAdapter = createEntityAdapter();
 
 const initialState = {
     modal: { name: '', active: false, channelId: null },
-  };
+};
 
 const modalSlice = createSlice({
     name: 'modal',

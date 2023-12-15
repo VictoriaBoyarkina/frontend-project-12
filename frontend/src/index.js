@@ -7,12 +7,12 @@ import store from './store/index.js';
 import 'react-toastify/dist/ReactToastify.css';
 
 document.body.innerHTML = '<div class="h-100" id="container"></div>';
-const container = document.getElementById('container')
+const container = document.getElementById('container');
 const root = createRoot(container);
 root.render(
-  <React.StrictMode>
+    <React.StrictMode>
         <Provider store={store}>
-          <App />
+            <App />
         </Provider>
-  </React.StrictMode>
+    </React.StrictMode>
 );

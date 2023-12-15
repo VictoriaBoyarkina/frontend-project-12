@@ -25,13 +25,13 @@ const RemoveChannel = () => {
         setSubmitting(true);
         socket.emit("removeChannel", { id: channelId }, (response) => {
             console.log(response.status);
-            setSubmitting(false)
+            setSubmitting(false);
             dispatch(modalActions.closeModal());
             toast.success(t('toast.deleteChannel'), {
                 autoClose: 5000
-            })
-        })
-    }
+            });
+        });
+    };
 
     return (
         <>
@@ -54,7 +54,7 @@ const RemoveChannel = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default RemoveChannel;
