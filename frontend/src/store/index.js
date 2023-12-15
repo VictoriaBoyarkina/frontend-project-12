@@ -5,10 +5,10 @@ import currentChannelIdReducer from './currentChannelIdSlice';
 import modalReducer from './modalSlice';
 
 export default configureStore({
-    reducer: {
-        channels: channelsReducer,
-        currentChannelId: currentChannelIdReducer,
-        messages: messagesReducer,
-        modal: modalReducer,
-    },
+  reducer: {
+    channels: channelsReducer,
+    currentChannelId: currentChannelIdReducer,
+    messages: messagesReducer,
+    modal: modalReducer,
+  },
 });

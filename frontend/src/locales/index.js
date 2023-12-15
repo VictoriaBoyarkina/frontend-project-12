@@ -1,7 +1,7 @@
 import ru from './ru/translation.json';
 
 const locales = {
-    ru: { translation: ru },
+  ru: { translation: ru },
 };
 
 export default locales;

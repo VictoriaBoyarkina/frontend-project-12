@@ -5,12 +5,12 @@ const messagesAdapter = createEntityAdapter();
 const initialState = messagesAdapter.getInitialState();
 
 const messagesSlice = createSlice({
-    name: 'messages',
-    initialState,
-    reducers: {
-        addMessage: messagesAdapter.addOne,
-        addMessages: messagesAdapter.addMany,
-    },
+  name: 'messages',
+  initialState,
+  reducers: {
+    addMessage: messagesAdapter.addOne,
+    addMessages: messagesAdapter.addMany,
+  },
 });
 
 export const { addMessage, addMessages } = messagesSlice.actions;
