@@ -21,10 +21,12 @@
         "react/jsx-uses-react": "off",
         "react/prop-types": "off",
         "indent": ["error", 2],
+        "jsx-quotes": ["error", "prefer-single"],
         "linebreak-style": ["error", "unix"],
         "no-param-reassign": "off",
         "import/extensions": "off",
         "no-console":"off",
+        "react/jsx-closing-bracket-location": "off",
         "max-len": ["error", { "code": 120 }]
     }
 }
