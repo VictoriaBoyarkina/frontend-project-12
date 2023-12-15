@@ -59,7 +59,9 @@ const LogOutButton = () => {
 
   return (
     auth.loggedIn ? <button type="button" onClick={signOut} className="btn btn-primary rounded-1">
-      {i18next.t('buttons.logout')} </button> : null
+      {i18next.t('buttons.logout')}
+      {' '}
+    </button> : null
   );
 };
 
@@ -132,7 +134,10 @@ const App = () => {
                       </div>
                     </Navbar>
                     <Routes>
-                      <Route path="/" element={(<PrivateRoute><ChatPage /></PrivateRoute>)}/>
+                      <Route
+                        path="/" element={(<PrivateRoute>
+                          <ChatPage />
+                        </PrivateRoute>)}/>
                       <Route path="/login" element={<LoginPage />} />
                       <Route path="/signup" element={<SignupPage />} />
                       <Route path="*" element={<NotFoundPage />} />

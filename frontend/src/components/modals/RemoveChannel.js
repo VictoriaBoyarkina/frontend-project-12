@@ -40,17 +40,23 @@ const RemoveChannel = () => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <div className="modal-title h4">{t('deleteChannel')}</div>
-              <button type="button" onClick={closeModal} aria-label="Close" data-bs-dismiss="modal"
+              <div className="modal-title h4">
+                {t('deleteChannel')}
+              </div>
+              <button
+                type="button" onClick={closeModal} aria-label="Close" data-bs-dismiss="modal"
                 className="btn btn-close"></button>
             </div>
             <div className="modal-body">
-              <p className="lead">{t('areYouSure')}</p>
+              <p className="lead">
+                {t('areYouSure')}
+              </p>
               <div className="d-flex justify-content-end">
                 <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>
                   {t('buttons.cancel')}
                 </button>
-                <button type="button" className="btn btn-danger"
+                <button
+                  type="button" className="btn btn-danger"
                   disabled={isSubmitting} onClick={removeChannel}>
                   {t('buttons.delete')}
                 </button>

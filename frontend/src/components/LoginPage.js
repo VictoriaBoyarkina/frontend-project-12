@@ -30,7 +30,9 @@ const LoginPage = () => {
 
   const InvalidCredentials = () => {
     if (authFailed) {
-      return <div className="invalid-tooltip">{t('errors.invalidCredentials')}</div>;
+      return <div className="invalid-tooltip">
+        {t('errors.invalidCredentials')}
+      </div>;
     }
     return null;
   };
@@ -74,35 +76,41 @@ const LoginPage = () => {
                 <img src={login} className="rounded-circle" alt="Войти"/>
               </div>
               <form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={handleSubmit}>
-                <h1 className="text-center mb-4">{t('buttons.login')}</h1>
-                <div className='form-floating mb-3'>
+                <h1 className="text-center mb-4">
+                  {t('buttons.login')}
+                </h1>
+                <div className="form-floating mb-3">
                   <input
                     ref={inputEl}
                     name="username"
-                    autoComplete='username'
+                    autoComplete="username"
                     required
-                    placeholder='Ваш ник'
+                    placeholder="Ваш ник"
                     id="username"
                     className={getInputClass(errors.username, touched.username, authFailed)}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.username}
                   />
-                  <label htmlFor="username">{t('nickname')}</label>
+                  <label htmlFor="username">
+                    {t('nickname')}
+                  </label>
                 </div>
-                <div className='form-floating mb-4'>
+                <div className="form-floating mb-4">
                   <input
                     name="password"
-                    autoComplete='current-password'
+                    autoComplete="current-password"
                     required
-                    placeholder='Пароль'
+                    placeholder="Пароль"
                     id="password"
                     className={getInputClass(errors.password, touched.password, authFailed)}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
                   />
-                  <label htmlFor="password">{t('password')}</label>
+                  <label htmlFor="password">
+                    {t('password')}
+                  </label>
                   <InvalidCredentials/>
                 </div>
                 <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
@@ -110,10 +118,15 @@ const LoginPage = () => {
                 </button>
               </form>
             </div>
-            <div className='card-footer p-4'>
-              <div className='text-center'>
-                <span>{t('noAccount')} </span>
-                <a href="/signup">{t('registration')}</a>
+            <div className="card-footer p-4">
+              <div className="text-center">
+                <span>
+                  {t('noAccount')}
+                  {' '}
+                </span>
+                <a href="/signup">
+                  {t('registration')}
+                </a>
               </div>
             </div>
           </div>

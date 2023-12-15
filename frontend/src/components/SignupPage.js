@@ -61,56 +61,66 @@ const SignupPage = () => {
   });
 
   return (
-    <div className='container-fluid h-100'>
-      <div className='row justify-content-center align-content-center h-100'>
-        <div className='col-12 col-md-8 col-xxl-6'>
-          <div className='card shadow-sm'>
-            <div className='card-body d-flex flex-column flex-md-row
-                        justify-content-around align-items-center p-5'>
+    <div className="container-fluid h-100">
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <div className="card shadow-sm">
+            <div className="card-body d-flex flex-column flex-md-row
+                        justify-content-around align-items-center p-5">
               <div>
-                <img src={signup} className='rounded-circle' alt="Регистрация"/>
+                <img src={signup} className="rounded-circle" alt="Регистрация"/>
               </div>
               <form className="w-50" onSubmit={handleSubmit}>
-                <h1 className='text-center mb-4'>{t('registration')}</h1>
-                <div className='form-floating mb-3'>
+                <h1 className="text-center mb-4">
+                  {t('registration')}
+                </h1>
+                <div className="form-floating mb-3">
                   <input
                     ref={inputEl}
                     name="username"
-                    autoComplete='username'
+                    autoComplete="username"
                     required
-                    placeholder='От 3 до 20 символов'
+                    placeholder="От 3 до 20 символов"
                     id="username"
                     className={getInputClass(errors.username, touched.username, authFailed)}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.username}
                   />
-                  <div className="invalid-tooltip">{t(errors.username)}</div>
-                  <label className='form-label' htmlFor="username">{t('username')}</label>
+                  <div className="invalid-tooltip">
+                    {t(errors.username)}
+                  </div>
+                  <label className="form-label" htmlFor="username">
+                    {t('username')}
+                  </label>
                 </div>
-                <div className='form-floating mb-3'>
+                <div className="form-floating mb-3">
                   <input
                     name="password"
-                    autoComplete='new-password'
+                    autoComplete="new-password"
                     required
-                    type='password'
-                    placeholder='Не менее 6 символов'
+                    type="password"
+                    placeholder="Не менее 6 символов"
                     id="password"
                     className={getInputClass(errors.password, touched.password, authFailed)}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
                   />
-                  <div className="invalid-tooltip">{t(errors.password)}</div>
-                  <label className='form-label' htmlFor="password">{t('password')}</label>
+                  <div className="invalid-tooltip">
+                    {t(errors.password)}
+                  </div>
+                  <label className="form-label" htmlFor="password">
+                    {t('password')}
+                  </label>
                 </div>
-                <div className='form-floating mb-4'>
+                <div className="form-floating mb-4">
                   <input
                     name="confirmPassword"
-                    autoComplete='new-password'
+                    autoComplete="new-password"
                     required
-                    placeholder='Пароли должны совпадать'
-                    type='password'
+                    placeholder="Пароли должны совпадать"
+                    type="password"
                     id="confirmPassword"
                     className={getConfirmPasswordInputClass(
                       errors.confirmPassword,
@@ -126,7 +136,7 @@ const SignupPage = () => {
                   <div className="invalid-tooltip">
                     {t(errors.confirmPassword)}
                   </div>
-                  <label className='form-label' htmlFor="confirmPassword">
+                  <label className="form-label" htmlFor="confirmPassword">
                     {t('confirmPassword')}
                   </label>
                 </div>

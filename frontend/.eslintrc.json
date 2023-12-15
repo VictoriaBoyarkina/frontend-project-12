@@ -25,7 +25,9 @@
         "no-param-reassign": "off",
         "import/extensions": "off",
         "no-console":"off",
-        "react/jsx-closing-bracket-location": "off",
-        "max-len": ["error", { "code": 120 }]
+        "jsx-quotes": ["error", "prefer-double"],
+        "max-len": ["error", { "code": 120 }],
+        "react/jsx-one-expression-per-line": "error",
+        "react/jsx-first-prop-new-line": "error"
     }
 }
