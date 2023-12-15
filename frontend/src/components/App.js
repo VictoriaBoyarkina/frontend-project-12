@@ -121,25 +121,21 @@ const App = () => {
           <I18nextProvider i18n={i18next} defaultNS={'translation'}>
             <BrowserRouter>
               <EmitsContext.Provider value={{ socket }}>
-                <div className='h-100' id='chat'>
-                  <div className='d-flex flex-column h-100'>
-                    <Navbar expand='lg' bg='white' className='shadow-sm navbar navbar-light'>
-                      <div className='container'>
+                <div className="h-100" id="chat">
+                  <div className="d-flex flex-column h-100">
+                    <Navbar expand="lg" bg="white" className="shadow-sm navbar navbar-light">
+                      <div className="container">
                         <Navbar.Brand as={Link} to="/">
                           {i18next.t('navBar.brand')}
                         </Navbar.Brand>
-                        <LogOutButton/>
+                        <LogOutButton />
                       </div>
                     </Navbar>
                     <Routes>
-                      <Route path="/" element={(
-                        <PrivateRoute>
-                          <ChatPage/>
-                        </PrivateRoute>
-                      )}/>
+                      <Route path="/" element={(<PrivateRoute><ChatPage /></PrivateRoute>)}/>
                       <Route path="/login" element={<LoginPage />} />
-                      <Route path='/signup' element={<SignupPage />} />
-                      <Route path='*' element={<NotFoundPage />} />
+                      <Route path="/signup" element={<SignupPage />} />
+                      <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                   </div>
                 </div>

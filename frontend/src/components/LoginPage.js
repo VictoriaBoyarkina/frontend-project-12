@@ -65,16 +65,16 @@ const LoginPage = () => {
   });
 
   return (
-    <div className='container-fluid h-100'>
-      <div className='row justify-content-center align-content-center h-100'>
-        <div className='col-12 col-md-8 col-xxl-6'>
-          <div className='card shadow-sm'>
-            <div className='cardbody row p-5'>
-              <div className='col-12 col-md-6 d-flex align-items-center justify-content-center'>
-                <img src={login} className='rounded-circle' alt="Войти"/>
+    <div className="container-fluid h-100">
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <div className="card shadow-sm">
+            <div className="cardbody row p-5">
+              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                <img src={login} className="rounded-circle" alt="Войти"/>
               </div>
               <form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={handleSubmit}>
-                <h1 className='text-center mb-4'>{t('buttons.login')}</h1>
+                <h1 className="text-center mb-4">{t('buttons.login')}</h1>
                 <div className='form-floating mb-3'>
                   <input
                     ref={inputEl}
