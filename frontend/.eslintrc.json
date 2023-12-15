@@ -21,7 +21,7 @@
         "react/jsx-uses-react": "off",
         "react/prop-types": "off",
         "indent": ["error", 2],
-        "jsx-quotes": ["error", "prefer-single"],
+        "jsx-quotes": "off",
         "linebreak-style": ["error", "unix"],
         "no-param-reassign": "off",
         "import/extensions": "off",
