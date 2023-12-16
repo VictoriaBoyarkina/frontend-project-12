@@ -33,7 +33,8 @@ const LoginPage = () => {
       return (
         <div className="invalid-tooltip">
           {t('errors.invalidCredentials')}
-        </div>);
+        </div>
+      );
     }
     return null;
   };
@@ -77,11 +78,13 @@ const LoginPage = () => {
                 <img
                   src={login}
                   className="rounded-circle"
-                  alt="Войти" />
+                  alt="Войти"
+                />
               </div>
               <form
                 className="col-12 col-md-6 mt-3 mt-mb-0"
-                onSubmit={handleSubmit}>
+                onSubmit={handleSubmit}
+              >
                 <h1 className="text-center mb-4">
                   {t('buttons.login')}
                 </h1>
@@ -121,7 +124,8 @@ const LoginPage = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-100 mb-3 btn btn-outline-primary">
+                  className="w-100 mb-3 btn btn-outline-primary"
+                >
                   {t('buttons.login')}
                 </button>
               </form>
