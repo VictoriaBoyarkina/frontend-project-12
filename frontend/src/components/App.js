@@ -1,3 +1,4 @@
+/* react/jsx-no-constructed-context-values */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter, Routes, Route, Link, Navigate, useLocation,
@@ -47,9 +48,12 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   return (
-    auth.loggedIn ? children : <Navigate
-      to="/login"
-      state={{ from: location }} />
+    auth.loggedIn ? children : (
+      <Navigate
+        to="/login"
+        state={{ from: location }}
+      />
+    )
   );
 };
 
@@ -65,10 +69,12 @@ const LogOutButton = () => {
       <button
         type="button"
         onClick={signOut}
-        className="btn btn-primary rounded-1">
+        className="btn btn-primary rounded-1"
+      >
         {i18next.t('buttons.logout')}
         {' '}
-      </button>) : null
+      </button>
+    ) : null
   );
 };
 
@@ -129,7 +135,8 @@ const App = () => {
         <AuthProvider>
           <I18nextProvider
             i18n={i18next}
-            defaultNS="translation">
+            defaultNS="translation"
+          >
             <BrowserRouter>
               <EmitsContext.Provider value={{ socket }}>
                 <div
