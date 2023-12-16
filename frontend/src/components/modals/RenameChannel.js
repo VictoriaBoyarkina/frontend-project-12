@@ -95,7 +95,8 @@ const RenameChannel = () => {
                   />
                   <label
                     className="visually-hidden"
-                    htmlFor="name">
+                    htmlFor="name"
+                  >
                     {t('channelName')}
                   </label>
                   <div

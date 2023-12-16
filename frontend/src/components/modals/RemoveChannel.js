@@ -41,7 +41,8 @@ const RemoveChannel = () => {
         aria-modal="true"
         className="fade modal show"
         tabIndex="-1"
-        style={{ display: 'block' }}>
+        style={{ display: 'block' }}
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
@@ -53,7 +54,8 @@ const RemoveChannel = () => {
                 onClick={closeModal}
                 aria-label="Close"
                 data-bs-dismiss="modal"
-                className="btn btn-close" />
+                className="btn btn-close"
+              />
             </div>
             <div className="modal-body">
               <p className="lead">
@@ -63,14 +65,16 @@ const RemoveChannel = () => {
                 <button
                   type="button"
                   className="me-2 btn btn-secondary"
-                  onClick={closeModal}>
+                  onClick={closeModal}
+                >
                   {t('buttons.cancel')}
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger"
                   disabled={isSubmitting}
-                  onClick={removeChannel}>
+                  onClick={removeChannel}
+                >
                   {t('buttons.delete')}
                 </button>
               </div>

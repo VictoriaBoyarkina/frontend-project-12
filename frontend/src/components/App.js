@@ -133,16 +133,19 @@ const App = () => {
               <EmitsContext.Provider value={{ socket }}>
                 <div
                   className="h-100"
-                  id="chat">
+                  id="chat"
+                >
                   <div className="d-flex flex-column h-100">
                     <Navbar
                       expand="lg"
                       bg="white"
-                      className="shadow-sm navbar navbar-light">
+                      className="shadow-sm navbar navbar-light"
+                    >
                       <div className="container">
                         <Navbar.Brand
                           as={Link}
-                          to="/">
+                          to="/"
+                        >
                           {i18next.t('navBar.brand')}
                         </Navbar.Brand>
                         <LogOutButton />
@@ -154,16 +157,20 @@ const App = () => {
                         element={(
                           <PrivateRoute>
                             <ChatPage />
-                          </PrivateRoute>)} />
+                          </PrivateRoute>)}
+                      />
                       <Route
                         path="/login"
-                        element={<LoginPage />} />
+                        element={<LoginPage />}
+                      />
                       <Route
                         path="/signup"
-                        element={<SignupPage />} />
+                        element={<SignupPage />}
+                      />
                       <Route
                         path="*"
-                        element={<NotFoundPage />} />
+                        element={<NotFoundPage />}
+                      />
                     </Routes>
                   </div>
                 </div>

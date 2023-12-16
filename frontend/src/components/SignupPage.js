@@ -66,16 +66,19 @@ const SignupPage = () => {
         <div className="col-12 col-md-8 col-xxl-6">
           <div className="card shadow-sm">
             <div className="card-body d-flex flex-column flex-md-row
-                        justify-content-around align-items-center p-5">
+                        justify-content-around align-items-center p-5"
+            >
               <div>
                 <img
                   src={signup}
                   className="rounded-circle"
-                  alt="Регистрация" />
+                  alt="Регистрация"
+                />
               </div>
               <form
                 className="w-50"
-                onSubmit={handleSubmit}>
+                onSubmit={handleSubmit}
+              >
                 <h1 className="text-center mb-4">
                   {t('registration')}
                 </h1>
@@ -97,7 +100,8 @@ const SignupPage = () => {
                   </div>
                   <label
                     className="form-label"
-                    htmlFor="username">
+                    htmlFor="username"
+                  >
                     {t('username')}
                   </label>
                 </div>
@@ -119,7 +123,8 @@ const SignupPage = () => {
                   </div>
                   <label
                     className="form-label"
-                    htmlFor="password">
+                    htmlFor="password"
+                  >
                     {t('password')}
                   </label>
                 </div>
@@ -147,13 +152,15 @@ const SignupPage = () => {
                   </div>
                   <label
                     className="form-label"
-                    htmlFor="confirmPassword">
+                    htmlFor="confirmPassword"
+                  >
                     {t('confirmPassword')}
                   </label>
                 </div>
                 <button
                   type="submit"
-                  className="w-100 mb-3 btn btn-outline-primary">
+                  className="w-100 mb-3 btn btn-outline-primary"
+                >
                   {t('buttons.signup')}
                 </button>
               </form>

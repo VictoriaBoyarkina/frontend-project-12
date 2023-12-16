@@ -31,7 +31,8 @@ const Channels = () => {
       <Button
         className="w-100 rounded-0 text-start"
         onClick={() => changeCurrentChannel(channel.id)}
-        variant={variant}>
+        variant={variant}
+      >
         <span className="me-1">
 #
         </span>
@@ -42,16 +43,19 @@ const Channels = () => {
     return channel.removable ? (
       <li
         className="nav-item w-100"
-        key={channel.id}>
+        key={channel.id}
+      >
         <Dropdown
           className="d-flex"
-          as={ButtonGroup}>
+          as={ButtonGroup}
+        >
           {renderButton()}
           <Dropdown.Toggle
             split
             variant={variant}
             className="flex-grow-0"
-            id="dropdown-split-basic">
+            id="dropdown-split-basic"
+          >
             <span className="visually-hidden">
               {t('handleChannel')}
             </span>
@@ -59,12 +63,14 @@ const Channels = () => {
           <Dropdown.Menu>
             <Dropdown.Item
               href="#"
-              onClick={() => handleClickModal({ name: 'removing', channelId: channel.id })}>
+              onClick={() => handleClickModal({ name: 'removing', channelId: channel.id })}
+            >
               {t('buttons.delete')}
             </Dropdown.Item>
             <Dropdown.Item
               href="#"
-              onClick={() => handleClickModal({ name: 'renaming', channelId: channel.id })}>
+              onClick={() => handleClickModal({ name: 'renaming', channelId: channel.id })}
+            >
               {t('buttons.rename')}
             </Dropdown.Item>
           </Dropdown.Menu>
@@ -73,7 +79,8 @@ const Channels = () => {
     ) : (
       <li
         className="nav-item w-100"
-        key={channel.id}>
+        key={channel.id}
+      >
         {renderButton()}
       </li>
 

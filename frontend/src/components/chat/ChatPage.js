@@ -63,7 +63,8 @@ const ChatPage = () => {
     <div className="d-flex justify-content-center">
       <div
         className="spinner-border"
-        role="status">
+        role="status"
+      >
         <span className="sr-only" />
       </div>
     </div>
