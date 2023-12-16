@@ -1,4 +1,4 @@
-/* react/jsx-no-constructed-context-values */
+/* eslint-disable react/jsx-no-constructed-context-values */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter, Routes, Route, Link, Navigate, useLocation,
@@ -165,7 +165,8 @@ const App = () => {
                         element={(
                           <PrivateRoute>
                             <ChatPage />
-                          </PrivateRoute>)}
+                          </PrivateRoute>
+                        )}
                       />
                       <Route
                         path="/login"
