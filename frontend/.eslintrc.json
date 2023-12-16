@@ -22,7 +22,6 @@
         "react/prop-types": "off",
         "indent": ["error", 2],
         "linebreak-style": ["error", "unix"],
-        "no-param-reassign": "off",
         "import/extensions": "off",
         "no-console":"off",
         "jsx-quotes": ["error", "prefer-double"],
@@ -30,7 +29,9 @@
         "react/jsx-one-expression-per-line": "error",
         "react/jsx-first-prop-new-line": "error",
         "react/jsx-wrap-multilines": "error",
-        "react/jsx-closing-tag-location": "error",
+        "react/jsx-closing-tag-location": ["warn", {
+            "nonEmpty": "tag-aligned"
+          }],
         "react/jsx-tag-spacing": "error",
         "react/jsx-curly-brace-presence": "error",
         "react/jsx-max-props-per-line": "error",

@@ -9,6 +9,7 @@ const currentChannelIdSlice = createSlice({
   },
   reducers: {
     setCurrentChannelId(state, { payload }) {
+      // eslint-disable-next-line no-param-reassign
       state.currentChannelId = payload;
     },
   },
