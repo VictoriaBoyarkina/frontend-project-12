@@ -46,7 +46,9 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   return (
-    auth.loggedIn ? children : <Navigate to="/login" state={{ from: location }} />
+    auth.loggedIn ? children : <Navigate
+      to="/login"
+      state={{ from: location }} />
   );
 };
 
@@ -58,10 +60,14 @@ const LogOutButton = () => {
   };
 
   return (
-    auth.loggedIn ? <button type="button" onClick={signOut} className="btn btn-primary rounded-1">
-      {i18next.t('buttons.logout')}
-      {' '}
-    </button> : null
+    auth.loggedIn ? (
+      <button
+        type="button"
+        onClick={signOut}
+        className="btn btn-primary rounded-1">
+        {i18next.t('buttons.logout')}
+        {' '}
+      </button>) : null
   );
 };
 
@@ -113,21 +119,30 @@ const App = () => {
       return null;
     }
     const Component = getModal(modal.name);
-    return <Component/>;
+    return <Component />;
   };
 
   return (
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
         <AuthProvider>
-          <I18nextProvider i18n={i18next} defaultNS={'translation'}>
+          <I18nextProvider
+            i18n={i18next}
+            defaultNS="translation">
             <BrowserRouter>
               <EmitsContext.Provider value={{ socket }}>
-                <div className="h-100" id="chat">
+                <div
+                  className="h-100"
+                  id="chat">
                   <div className="d-flex flex-column h-100">
-                    <Navbar expand="lg" bg="white" className="shadow-sm navbar navbar-light">
+                    <Navbar
+                      expand="lg"
+                      bg="white"
+                      className="shadow-sm navbar navbar-light">
                       <div className="container">
-                        <Navbar.Brand as={Link} to="/">
+                        <Navbar.Brand
+                          as={Link}
+                          to="/">
                           {i18next.t('navBar.brand')}
                         </Navbar.Brand>
                         <LogOutButton />
@@ -135,12 +150,20 @@ const App = () => {
                     </Navbar>
                     <Routes>
                       <Route
-                        path="/" element={(<PrivateRoute>
-                          <ChatPage />
-                        </PrivateRoute>)}/>
-                      <Route path="/login" element={<LoginPage />} />
-                      <Route path="/signup" element={<SignupPage />} />
-                      <Route path="*" element={<NotFoundPage />} />
+                        path="/"
+                        element={(
+                          <PrivateRoute>
+                            <ChatPage />
+                          </PrivateRoute>)} />
+                      <Route
+                        path="/login"
+                        element={<LoginPage />} />
+                      <Route
+                        path="/signup"
+                        element={<SignupPage />} />
+                      <Route
+                        path="*"
+                        element={<NotFoundPage />} />
                     </Routes>
                   </div>
                 </div>

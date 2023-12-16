@@ -28,11 +28,12 @@ const LoginPage = () => {
     inputEl.current.focus();
   }, []);
 
-  const InvalidCredentials = () => {
+  const invalidCredentials = () => {
     if (authFailed) {
-      return <div className="invalid-tooltip">
-        {t('errors.invalidCredentials')}
-      </div>;
+      return (
+        <div className="invalid-tooltip">
+          {t('errors.invalidCredentials')}
+        </div>);
     }
     return null;
   };
@@ -73,9 +74,14 @@ const LoginPage = () => {
           <div className="card shadow-sm">
             <div className="cardbody row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img src={login} className="rounded-circle" alt="Войти"/>
+                <img
+                  src={login}
+                  className="rounded-circle"
+                  alt="Войти" />
               </div>
-              <form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={handleSubmit}>
+              <form
+                className="col-12 col-md-6 mt-3 mt-mb-0"
+                onSubmit={handleSubmit}>
                 <h1 className="text-center mb-4">
                   {t('buttons.login')}
                 </h1>
@@ -111,9 +117,11 @@ const LoginPage = () => {
                   <label htmlFor="password">
                     {t('password')}
                   </label>
-                  <InvalidCredentials/>
+                  {invalidCredentials()}
                 </div>
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
+                <button
+                  type="submit"
+                  className="w-100 mb-3 btn btn-outline-primary">
                   {t('buttons.login')}
                 </button>
               </form>

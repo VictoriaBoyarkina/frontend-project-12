@@ -28,6 +28,13 @@
         "jsx-quotes": ["error", "prefer-double"],
         "max-len": ["error", { "code": 120 }],
         "react/jsx-one-expression-per-line": "error",
-        "react/jsx-first-prop-new-line": "error"
+        "react/jsx-first-prop-new-line": "error",
+        "react/jsx-wrap-multilines": "error",
+        "react/jsx-closing-tag-location": "error",
+        "react/jsx-tag-spacing": "error",
+        "react/jsx-curly-brace-presence": "error",
+        "react/jsx-max-props-per-line": "error",
+        "react/no-unstable-nested-components": "error",
+        "react/self-closing-comp": "error"
     }
 }

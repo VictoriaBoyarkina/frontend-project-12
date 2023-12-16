@@ -68,9 +68,14 @@ const SignupPage = () => {
             <div className="card-body d-flex flex-column flex-md-row
                         justify-content-around align-items-center p-5">
               <div>
-                <img src={signup} className="rounded-circle" alt="Регистрация"/>
+                <img
+                  src={signup}
+                  className="rounded-circle"
+                  alt="Регистрация" />
               </div>
-              <form className="w-50" onSubmit={handleSubmit}>
+              <form
+                className="w-50"
+                onSubmit={handleSubmit}>
                 <h1 className="text-center mb-4">
                   {t('registration')}
                 </h1>
@@ -90,7 +95,9 @@ const SignupPage = () => {
                   <div className="invalid-tooltip">
                     {t(errors.username)}
                   </div>
-                  <label className="form-label" htmlFor="username">
+                  <label
+                    className="form-label"
+                    htmlFor="username">
                     {t('username')}
                   </label>
                 </div>
@@ -110,7 +117,9 @@ const SignupPage = () => {
                   <div className="invalid-tooltip">
                     {t(errors.password)}
                   </div>
-                  <label className="form-label" htmlFor="password">
+                  <label
+                    className="form-label"
+                    htmlFor="password">
                     {t('password')}
                   </label>
                 </div>
@@ -136,11 +145,15 @@ const SignupPage = () => {
                   <div className="invalid-tooltip">
                     {t(errors.confirmPassword)}
                   </div>
-                  <label className="form-label" htmlFor="confirmPassword">
+                  <label
+                    className="form-label"
+                    htmlFor="confirmPassword">
                     {t('confirmPassword')}
                   </label>
                 </div>
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
+                <button
+                  type="submit"
+                  className="w-100 mb-3 btn btn-outline-primary">
                   {t('buttons.signup')}
                 </button>
               </form>

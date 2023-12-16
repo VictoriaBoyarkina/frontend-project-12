@@ -56,10 +56,13 @@ const RenameChannel = () => {
 
   return (
     <>
-      <div className="fade modal-backdrop show"></div>
+      <div className="fade modal-backdrop show" />
       <div
-        role="dialog" aria-modal="true"
-        className="fade modal show" tabIndex="-1" style={{ display: 'block' }}>
+        role="dialog"
+        aria-modal="true"
+        className="fade modal show"
+        tabIndex="-1"
+        style={{ display: 'block' }}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
@@ -67,30 +70,45 @@ const RenameChannel = () => {
                 {t('renameChannel')}
               </div>
               <button
-                type="button" aria-label="Close" data-bs-dismiss="modal" onClick={closeModal}
-                className="btn btn-close"></button>
+                type="button"
+                aria-label="Close"
+                data-bs-dismiss="modal"
+                onClick={closeModal}
+                className="btn btn-close" />
             </div>
             <div className="modal-body">
-              <form className="" onSubmit={handleSubmit}>
+              <form
+                className=""
+                onSubmit={handleSubmit}>
                 <div>
                   <input
                     ref={inputEl}
-                    name="name" id="name"
+                    name="name"
+                    id="name"
                     className={inputClasses}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.name}/>
-                  <label className="visually-hidden" htmlFor="name">
+                    value={values.name} />
+                  <label
+                    className="visually-hidden"
+                    htmlFor="name">
                     {t('channelName')}
                   </label>
-                  <div className="invalid-feedback" style={{ display: 'block' }}>
+                  <div
+                    className="invalid-feedback"
+                    style={{ display: 'block' }}>
                     {t(errors.name)}
                   </div>
                   <div className="d-flex justify-content-end">
-                    <button type="button" className="me-2 btn btn-secondary" onClick={closeModal}>
+                    <button
+                      type="button"
+                      className="me-2 btn btn-secondary"
+                      onClick={closeModal}>
                       {t('buttons.cancel')}
                     </button>
-                    <button type="submit" className="btn btn-primary">
+                    <button
+                      type="submit"
+                      className="btn btn-primary">
                       {t('buttons.send')}
                     </button>
                   </div>

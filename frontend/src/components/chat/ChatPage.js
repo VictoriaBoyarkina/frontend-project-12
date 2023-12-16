@@ -61,15 +61,17 @@ const ChatPage = () => {
 
   return loading ? (
     <div className="d-flex justify-content-center">
-      <div className="spinner-border" role="status">
-        <span className="sr-only"></span>
+      <div
+        className="spinner-border"
+        role="status">
+        <span className="sr-only" />
       </div>
     </div>
   ) : (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
-        <Channels/>
-        <Messages/>
+        <Channels />
+        <Messages />
       </div>
     </div>
   );
