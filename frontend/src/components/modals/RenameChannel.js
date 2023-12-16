@@ -62,7 +62,8 @@ const RenameChannel = () => {
         aria-modal="true"
         className="fade modal show"
         tabIndex="-1"
-        style={{ display: 'block' }}>
+        style={{ display: 'block' }}
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
@@ -74,12 +75,14 @@ const RenameChannel = () => {
                 aria-label="Close"
                 data-bs-dismiss="modal"
                 onClick={closeModal}
-                className="btn btn-close" />
+                className="btn btn-close"
+              />
             </div>
             <div className="modal-body">
               <form
                 className=""
-                onSubmit={handleSubmit}>
+                onSubmit={handleSubmit}
+              >
                 <div>
                   <input
                     ref={inputEl}
@@ -88,7 +91,8 @@ const RenameChannel = () => {
                     className={inputClasses}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.name} />
+                    value={values.name}
+                  />
                   <label
                     className="visually-hidden"
                     htmlFor="name">
@@ -96,19 +100,22 @@ const RenameChannel = () => {
                   </label>
                   <div
                     className="invalid-feedback"
-                    style={{ display: 'block' }}>
+                    style={{ display: 'block' }}
+                  >
                     {t(errors.name)}
                   </div>
                   <div className="d-flex justify-content-end">
                     <button
                       type="button"
                       className="me-2 btn btn-secondary"
-                      onClick={closeModal}>
+                      onClick={closeModal}
+                    >
                       {t('buttons.cancel')}
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-primary">
+                      className="btn btn-primary"
+                    >
                       {t('buttons.send')}
                     </button>
                   </div>
