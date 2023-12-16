@@ -25,11 +25,12 @@ const Messages = () => {
       return (
         <div
           className="text-break mb-2"
-          key={message.id}>
+          key={message.id}
+        >
           <b>
             {message.user}
           </b>
-:
+          :
           {' '}
           {message.text}
         </div>

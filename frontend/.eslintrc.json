@@ -32,6 +32,7 @@
         "react/jsx-closing-tag-location": ["warn", {
             "nonEmpty": "tag-aligned"
           }],
+        "react/jsx-indent": ["error", 2],
         "react/jsx-tag-spacing": "error",
         "react/jsx-curly-brace-presence": "error",
         "react/jsx-max-props-per-line": "error",
