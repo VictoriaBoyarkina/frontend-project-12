@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter, Routes, Route, Link, Navigate, useLocation,
 } from 'react-router-dom';

@@ -16,6 +16,8 @@
       "navBar": {
         "brand": "Hexlet Chat"
       },
+      "butYouCan": "Но вы можете перейти",
+      "toTheMainPage": "на главную страницу",
       "handleChannel": "Управление каналом",
       "channelName": "Имя канала",
       "channels": "Каналы",
@@ -36,6 +38,8 @@
         "networkError": "Ошибка соединения"
       },
       "errors": {
+        "error404": "404",
+        "pageNotFound": "Страница не найдена",
         "channel": {
             "min": "От 3 до 20 символов",
             "max": "От 3 до 20 символов",
