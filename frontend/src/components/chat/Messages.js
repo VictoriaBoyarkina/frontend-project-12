@@ -12,19 +12,30 @@ const Messages = () => {
   const inputEl = useRef();
   useEffect(() => {
     inputEl.current.focus();
-  }, []);
+  });
 
   const { t } = useTranslation();
 
+  const container = useRef(null);
+
+  const scrollDown = () => {
+    container?.current?.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  };
+
+  useEffect(() => scrollDown());
+
+  const userName = JSON.parse(localStorage.getItem('userId')).username;
+
   const messages = useSelector(messagesSelectors.selectAll);
-  console.log(messages);
   const { currentChannelId } = useSelector((state) => state.currentChannelId);
 
   const renderMessage = (message) => {
+    const divClasses = (message.user === userName) ? 'text-break mb-2 bg-primary bg-opacity-10'
+      : 'text-break mb-2';
     if (message.channelId === currentChannelId) {
       return (
         <div
-          className="text-break mb-2"
+          className={divClasses}
           key={message.id}
         >
           <b>
@@ -42,14 +53,14 @@ const Messages = () => {
   const { socket } = useContext(EmitsContext);
 
   const [messageValue, setMessageValue] = useState('');
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setMessageValue(e.target.value);
   };
 
-  const userName = JSON.parse(localStorage.getItem('userId')).username;
-
   const handleSubmit = (e) => {
+    setSubmitting(true);
     const message = {
       text: LeoProfanity.clean(messageValue),
       user: userName,
@@ -58,6 +69,8 @@ const Messages = () => {
     e.preventDefault();
     socket.emit('newMessage', message, (response) => {
       console.log(response.status); // ok
+      setSubmitting(false);
+      scrollDown();
     });
     setMessageValue('');
   };
@@ -67,6 +80,7 @@ const Messages = () => {
       <div className="d-flex flex-column h-100">
         <MessagesHeader />
         <div
+          ref={container}
           id="messages-box"
           className="chat-messages overflow-auto px-5 "
         >
@@ -80,6 +94,7 @@ const Messages = () => {
           >
             <div className="input-group has-validation">
               <input
+                disabled={isSubmitting}
                 ref={inputEl}
                 onChange={handleChange}
                 name="body"
@@ -91,7 +106,7 @@ const Messages = () => {
               <button
                 type="submit"
                 disabled={messageValue === ''}
-                className="btn btn-group-vertical"
+                className="btn btn-group-vertical border border-0"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

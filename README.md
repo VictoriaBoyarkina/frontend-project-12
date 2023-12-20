@@ -10,6 +10,10 @@ React single page application. This is a simple chat built using socket programm
 
 Render link: https://frontend-project-12-uj6x.onrender.com/
 
+## Node Version
+
+20.8.1
+
 ## Install
 
         make install

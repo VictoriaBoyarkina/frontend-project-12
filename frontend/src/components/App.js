@@ -92,7 +92,6 @@ const App = () => {
 
   socket.on('newChannel', (channel) => {
     dispatch(channelsActions.addChannel(channel));
-    dispatch(currentChannelIdActions.setCurrentChannelId(channel.id));
   });
 
   socket.on('removeChannel', (channel) => {

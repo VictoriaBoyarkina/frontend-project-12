@@ -34,7 +34,7 @@ const RenameChannel = () => {
   };
 
   const {
-    values, errors, handleBlur, handleChange, handleSubmit, setSubmitting,
+    values, errors, isSubmitting, handleBlur, handleChange, handleSubmit, setSubmitting,
   } = useFormik({
     initialValues: { name: currentChannel.name },
     validationSchema: getModalSchema(channelsNames),
@@ -115,6 +115,7 @@ const RenameChannel = () => {
                     </button>
                     <button
                       type="submit"
+                      disabled={isSubmitting}
                       className="btn btn-primary"
                     >
                       {t('buttons.send')}

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
@@ -11,6 +12,14 @@ const Channels = () => {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
+
+  const currentChannel = useRef(null);
+
+  const scrollTo = () => {
+    currentChannel?.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  };
+
+  useEffect(() => scrollTo());
 
   const channels = useSelector(channelsSelectors.selectAll);
   const { currentChannelId } = useSelector((state) => state.currentChannelId);
@@ -29,7 +38,7 @@ const Channels = () => {
 
     const renderButton = () => (
       <Button
-        className="w-100 rounded-0 text-start"
+        className="w-100 rounded-0 text-start text-truncate"
         onClick={() => changeCurrentChannel(channel.id)}
         variant={variant}
       >
@@ -42,6 +51,7 @@ const Channels = () => {
 
     return channel.removable ? (
       <li
+        ref={(channel.id === currentChannelId) ? currentChannel : null}
         className="nav-item w-100"
         key={channel.id}
       >

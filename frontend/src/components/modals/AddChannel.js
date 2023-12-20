@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { selectors as channelsSelectors } from '../../store/channelsSlice.js';
 import { actions as modalActions } from '../../store/modalSlice.js';
+import { actions as currentChannelIdActions } from '../../store/currentChannelIdSlice.js';
 import { EmitsContext } from '../../contexts/index.js';
 import { getModalSchema } from '../../schemas/index.js';
 
@@ -28,19 +29,18 @@ const Addchannel = () => {
   };
 
   const {
-    values, errors, handleBlur, handleChange, handleSubmit, setSubmitting,
+    values, errors, isSubmitting, handleBlur, handleChange, handleSubmit, setSubmitting,
   } = useFormik({
     initialValues: { name: '' },
     validationSchema: getModalSchema(channelsNames),
-    validateOnChange: false,
-    validateOnBlur: false,
     onSubmit: () => {
       setSubmitting(true);
-      const channel = { name: values.name, removable: true };
-      socket.emit('newChannel', channel, (response) => {
-        const { status } = response;
+      const newChannel = { name: values.name, removable: true };
+      socket.emit('newChannel', newChannel, (response) => {
+        const { status, data } = response;
         console.log(status);
         toast.success(t('toast.addChannel'));
+        dispatch(currentChannelIdActions.setCurrentChannelId(data.id));
         setSubmitting(false);
         dispatch(modalActions.closeModal());
       });
@@ -110,6 +110,7 @@ const Addchannel = () => {
                     </button>
                     <button
                       type="submit"
+                      disabled={isSubmitting}
                       className="btn btn-primary"
                     >
                       {t('buttons.send')}
