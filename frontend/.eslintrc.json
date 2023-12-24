@@ -4,7 +4,7 @@
         "es2021": true
     },
     "extends": [
-        "airbnb-base",
+        "airbnb",
         "react-app",
         "eslint:recommended",
         "plugin:react/recommended"
