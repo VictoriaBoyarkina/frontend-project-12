@@ -124,7 +124,7 @@ const Messages = () => {
                   />
                 </svg>
                 <span className="visually-hidden">
-                  {t('send')}
+                  {t('buttons.send')}
                 </span>
               </button>
             </div>

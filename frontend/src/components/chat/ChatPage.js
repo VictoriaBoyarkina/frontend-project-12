@@ -43,7 +43,6 @@ const ChatPage = () => {
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err.message);
           if (err.isAxiosError && err.response.status === 401) {
             auth.logOut();
             navigate(from);

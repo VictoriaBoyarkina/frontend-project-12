@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import routes from '../routes.js';
 
 const NotFoundPage = () => {
   const { t } = useTranslation();
@@ -16,7 +17,7 @@ const NotFoundPage = () => {
           {t('butYouCan')}
           {' '}
         </span>
-        <a href="/login">
+        <a href={routes.loginPage()}>
           {t('toTheMainPage')}
         </a>
       </p>

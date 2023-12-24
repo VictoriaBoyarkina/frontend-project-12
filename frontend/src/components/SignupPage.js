@@ -44,7 +44,6 @@ const SignupPage = () => {
         auth.logIn();
         navigate('/', { state: { from: location } });
       } catch (err) {
-        console.log(err.message);
         setSubmitting(false);
         if (err.isAxiosError && err.response.status === 409) {
           setAuthFailed(true);

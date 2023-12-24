@@ -4,12 +4,13 @@ import {
   BrowserRouter, Routes, Route, Link, Navigate, useLocation,
 } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { Navbar } from 'react-bootstrap';
 import { io } from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { Provider, ErrorBoundary } from '@rollbar/react';
+import i18next from 'i18next';
 import ChatPage from './chat/ChatPage.js';
 import SignupPage from './SignupPage.js';
 import LoginPage from './LoginPage';
@@ -19,8 +20,9 @@ import useAuth from '../hooks/index.js';
 import { actions as channelsActions } from '../store/channelsSlice.js';
 import { actions as messagesActions } from '../store/messagesSlice.js';
 import getModal from './modals/index.js';
+import routes from '../routes.js';
 import { actions as currentChannelIdActions } from '../store/currentChannelIdSlice.js';
-import i18next from '../i18next.js';
+import resources from '../locales/index.js';
 
 const rollbarConfig = {
   accessToken: '1d2a52991db34aa89efbdd8df5e0651a',
@@ -50,14 +52,14 @@ const PrivateRoute = ({ children }) => {
   return (
     auth.loggedIn ? children : (
       <Navigate
-        to="/login"
+        to={routes.loginPage()}
         state={{ from: location }}
       />
     )
   );
 };
 
-const LogOutButton = () => {
+const LogOutButton = ({ i18n }) => {
   const auth = useAuth();
   const signOut = () => {
     auth.logOut();
@@ -71,7 +73,7 @@ const LogOutButton = () => {
         onClick={signOut}
         className="btn btn-primary rounded-1"
       >
-        {i18next.t('buttons.logout')}
+        {i18n.t('buttons.logout')}
         {' '}
       </button>
     ) : null
@@ -79,6 +81,19 @@ const LogOutButton = () => {
 };
 
 const App = () => {
+  const i18n = i18next.createInstance();
+  i18n
+    .use(initReactI18next)
+    .init({
+      resources,
+      debug: true,
+      lng: 'ru',
+      fallbackLng: 'ru',
+      interpolation: {
+        escapeValue: false,
+      },
+    });
+
   const dispatch = useDispatch();
 
   const { currentChannelId } = useSelector((state) => state.currentChannelId);
@@ -133,7 +148,7 @@ const App = () => {
       <ErrorBoundary>
         <AuthProvider>
           <I18nextProvider
-            i18n={i18next}
+            i18n={i18n}
             defaultNS="translation"
           >
             <BrowserRouter>
@@ -151,16 +166,18 @@ const App = () => {
                       <div className="container">
                         <Navbar.Brand
                           as={Link}
-                          to="/"
+                          to={routes.chatPage()}
                         >
-                          {i18next.t('navBar.brand')}
+                          {i18n.t('navBar.brand')}
                         </Navbar.Brand>
-                        <LogOutButton />
+                        <LogOutButton
+                          i18n={i18n}
+                        />
                       </div>
                     </Navbar>
                     <Routes>
                       <Route
-                        path="/"
+                        path={routes.chatPage()}
                         element={(
                           <PrivateRoute>
                             <ChatPage />
@@ -168,15 +185,15 @@ const App = () => {
                         )}
                       />
                       <Route
-                        path="/login"
+                        path={routes.loginPage()}
                         element={<LoginPage />}
                       />
                       <Route
-                        path="/signup"
+                        path={routes.signupPage()}
                         element={<SignupPage />}
                       />
                       <Route
-                        path="*"
+                        path={routes.notFoundPage()}
                         element={<NotFoundPage />}
                       />
                     </Routes>

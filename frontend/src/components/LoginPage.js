@@ -52,7 +52,6 @@ const LoginPage = () => {
         auth.logIn();
         navigate('/', { state: { from: location } });
       } catch (err) {
-        console.log(err.message);
         setSubmitting(false);
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
@@ -136,7 +135,7 @@ const LoginPage = () => {
                   {t('noAccount')}
                   {' '}
                 </span>
-                <a href="/signup">
+                <a href={routes.signupPage()}>
                   {t('registration')}
                 </a>
               </div>
