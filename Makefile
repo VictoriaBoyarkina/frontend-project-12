@@ -12,3 +12,6 @@ build:
 
 install:
 	npm ci
+
+lint:
+	make -C frontend lint
