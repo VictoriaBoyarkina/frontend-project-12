@@ -52,10 +52,12 @@ const RunApp = () => {
     }));
   });
 
-  return (<App
-    i18n={i18n}
-    socket={socket}
-  />);
+  return (
+    <App
+      i18n={i18n}
+      socket={socket}
+    />
+  );
 };
 
 export default RunApp;
