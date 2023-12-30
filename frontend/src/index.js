@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { Provider } from 'react-redux';
-import App from './components/App';
+import RunApp from './components/RunApp.js';
 import store from './store/index.js';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,7 +12,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <RunApp />
     </Provider>
   </React.StrictMode>,
 );

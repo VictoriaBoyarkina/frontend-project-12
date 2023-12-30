@@ -107,6 +107,7 @@ const LoginPage = () => {
                 <div className="form-floating mb-4">
                   <input
                     name="password"
+                    type="password"
                     autoComplete="current-password"
                     required
                     placeholder="Пароль"
