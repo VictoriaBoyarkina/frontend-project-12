@@ -18,7 +18,8 @@ const AuthProvider = ({ children }) => {
     // eslint-disable-next-line react/jsx-no-constructed-context-values
     <AuthContext.Provider value={{
       loggedIn, logIn, logOut, saveToken,
-    }}>
+    }}
+    >
       {children}
     </AuthContext.Provider>
   );
