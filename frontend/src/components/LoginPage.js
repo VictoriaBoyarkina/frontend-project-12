@@ -47,7 +47,7 @@ const LoginPage = () => {
       setAuthFailed(false);
       try {
         const res = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
+        auth.saveToken(JSON.stringify(res.data));
         auth.logIn();
         navigate(routes.chatPage());
       } catch (err) {

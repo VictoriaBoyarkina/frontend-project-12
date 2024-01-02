@@ -38,7 +38,7 @@ const SignupPage = () => {
     onSubmit: async () => {
       try {
         const res = await axios.post(routes.signupPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
+        auth.saveToken(JSON.stringify(res.data));
         auth.logIn();
         navigate(routes.chatPage());
       } catch (err) {
