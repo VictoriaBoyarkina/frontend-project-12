@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { actions as modalActions } from '../../store/modalSlice.js';
+import { actions as channelsActions } from '../../store/channelsSlice.js';
 import { EmitsContext } from '../../contexts/index.js';
 
 const RemoveChannel = () => {
@@ -20,11 +21,15 @@ const RemoveChannel = () => {
 
   const { modal } = useSelector((state) => state.modal);
   const { channelId } = modal;
+  const { currentChannelId } = useSelector((state) => state.channels);
 
   const removeChannel = () => {
     setSubmitting(true);
     socket.emit('removeChannel', { id: channelId }, (response) => {
       console.log(response.status);
+      if (channelId === currentChannelId) {
+        dispatch(channelsActions.setCurrentChannelId(1));
+      }
       setSubmitting(false);
       dispatch(modalActions.closeModal());
       toast.success(t('toast.deleteChannel'), {

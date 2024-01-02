@@ -27,7 +27,7 @@ const Messages = () => {
   const userName = JSON.parse(localStorage.getItem('userId')).username;
 
   const messages = useSelector(messagesSelectors.selectAll);
-  const { currentChannelId } = useSelector((state) => state.currentChannelId);
+  const { currentChannelId } = useSelector((state) => state.channels);
 
   const renderMessage = (message) => {
     const divClasses = (message.user === userName) ? 'text-break mb-2 bg-primary bg-opacity-10'
@@ -99,7 +99,7 @@ const Messages = () => {
                 onChange={handleChange}
                 name="body"
                 aria-label="Новое сообщение"
-                placeholder="Введите сообщение..."
+                placeholder={t('chat.messages.placeholder')}
                 className="border-0 p-0 ps-2 form-control"
                 value={messageValue}
               />

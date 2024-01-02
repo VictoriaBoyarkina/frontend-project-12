@@ -8,5 +8,14 @@ const modals = {
   renaming: RenameChannel,
 };
 
+const renderModal = (modal) => {
+  const { active, name } = modal;
+  if (!active) {
+    return null;
+  }
+  const Component = modals[name];
+  return <Component />;
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (modalName) => modals[modalName];
+export default renderModal;

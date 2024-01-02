@@ -7,7 +7,7 @@ const MessagesHeader = () => {
   const { t } = useTranslation();
   const channels = useSelector(channelsSelectors.selectAll);
   const messages = useSelector(messagesSelectors.selectAll);
-  const { currentChannelId } = useSelector((state) => state.currentChannelId);
+  const { currentChannelId } = useSelector((state) => state.channels);
   const currentChannel = channels.find((channel) => channel.id === currentChannelId);
   const currentChannelMessages = messages
     .filter((message) => message.channelId === currentChannelId);

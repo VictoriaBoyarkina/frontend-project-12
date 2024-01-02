@@ -5,8 +5,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { actions as modalActions } from '../../store/modalSlice.js';
-import { actions as currentChannelIdActions } from '../../store/currentChannelIdSlice.js';
-import { selectors as channelsSelectors } from '../../store/channelsSlice.js';
+import { selectors as channelsSelectors, actions as channelsActions } from '../../store/channelsSlice.js';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -22,10 +21,10 @@ const Channels = () => {
   useEffect(() => scrollTo());
 
   const channels = useSelector(channelsSelectors.selectAll);
-  const { currentChannelId } = useSelector((state) => state.currentChannelId);
+  const { currentChannelId } = useSelector((state) => state.channels);
 
   const changeCurrentChannel = (id) => {
-    dispatch(currentChannelIdActions.setCurrentChannelId(id));
+    dispatch(channelsActions.setCurrentChannelId(id));
   };
 
   const handleClickModal = (data) => {

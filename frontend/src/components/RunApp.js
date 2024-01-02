@@ -1,11 +1,10 @@
 import i18next from 'i18next';
 import { io } from 'socket.io-client';
 import { initReactI18next } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import App from './App';
 import { actions as channelsActions } from '../store/channelsSlice.js';
 import { actions as messagesActions } from '../store/messagesSlice.js';
-import { actions as currentChannelIdActions } from '../store/currentChannelIdSlice.js';
 import resources from '../locales/index.js';
 
 const RunApp = () => {
@@ -24,8 +23,6 @@ const RunApp = () => {
 
   const dispatch = useDispatch();
 
-  const { currentChannelId } = useSelector((state) => state.currentChannelId);
-
   const socket = io();
 
   socket.on('newMessage', (message) => {
@@ -37,9 +34,6 @@ const RunApp = () => {
   });
 
   socket.on('removeChannel', (channel) => {
-    if (channel.id === currentChannelId) {
-      dispatch(currentChannelIdActions.setCurrentChannelId(1));
-    }
     dispatch(channelsActions.removeChannel(channel.id));
   });
 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import useAuth from '../hooks/index.js';
@@ -18,7 +18,6 @@ const LoginPage = () => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const auth = useAuth();
 
@@ -50,7 +49,7 @@ const LoginPage = () => {
         const res = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn();
-        navigate('/', { state: { from: location } });
+        navigate(routes.chatPage());
       } catch (err) {
         setSubmitting(false);
         if (err.isAxiosError && err.response.status === 401) {
@@ -77,7 +76,7 @@ const LoginPage = () => {
                 <img
                   src={login}
                   className="rounded-circle"
-                  alt="Войти"
+                  alt={t('loginPage.mainAlt')}
                 />
               </div>
               <form
@@ -93,7 +92,7 @@ const LoginPage = () => {
                     name="username"
                     autoComplete="username"
                     required
-                    placeholder="Ваш ник"
+                    placeholder={t('loginPage.placeholders.username')}
                     id="username"
                     className={getInputClass(errors.username, touched.username, authFailed)}
                     onChange={handleChange}
@@ -110,7 +109,7 @@ const LoginPage = () => {
                     type="password"
                     autoComplete="current-password"
                     required
-                    placeholder="Пароль"
+                    placeholder={t('loginPage.placeholders.password')}
                     id="password"
                     className={getInputClass(errors.password, touched.password, authFailed)}
                     onChange={handleChange}
@@ -133,11 +132,11 @@ const LoginPage = () => {
             <div className="card-footer p-4">
               <div className="text-center">
                 <span>
-                  {t('noAccount')}
+                  {t('loginPage.footer.noAccount')}
                   {' '}
                 </span>
                 <a href={routes.signupPage()}>
-                  {t('registration')}
+                  {t('loginPage.footer.registration')}
                 </a>
               </div>
             </div>

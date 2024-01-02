@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { actions as currentChannelIdActions } from '../../store/currentChannelIdSlice.js';
 import routes from '../../routes.js';
 import useAuth from '../../hooks/index.js';
 import { actions as channelsActions } from '../../store/channelsSlice.js';
@@ -39,7 +38,7 @@ const ChatPage = () => {
 
           dispatch(channelsActions.addChannels(channels));
           dispatch(messagesActions.addMessages(messages));
-          dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
+          dispatch(channelsActions.setCurrentChannelId(currentChannelId));
           setLoading(false);
         })
         .catch((err) => {

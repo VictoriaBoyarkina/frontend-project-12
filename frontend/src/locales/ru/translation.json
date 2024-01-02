@@ -16,6 +16,31 @@
       "navBar": {
         "brand": "Hexlet Chat"
       },
+      "chat": {
+        "messages": {
+          "placeholder": "Введите сообщение..."
+        }
+      },
+      "loginPage": {
+        "placeholders": {
+          "username": "Ваш ник",
+          "password": "Пароль"
+        },
+        "mainAlt": "Войти",
+        "footer": {
+          "noAccount":"Нет аккаунта?",
+          "registration":"Регистрация"
+        }
+      },
+      "signupPage": {
+        "header": "Регистрация",
+        "placeholders": {
+          "username": "От 3 до 20 символов",
+          "password": "Не менее 6 символов",
+          "confirmPassword": "Пароли должны совпадать"
+        },
+        "mainAlt": "Регистрация"
+      },
       "butYouCan": "Но вы можете перейти",
       "toTheMainPage": "на главную страницу",
       "handleChannel": "Управление каналом",
@@ -25,8 +50,6 @@
       "areYouSure": "Уверены?",
       "renameChannel": "Переименовать канал",
       "addChannel": "Добавить канал",
-      "registration": "Регистрация",
-      "noAccount": "Нет аккаунта?",
       "password": "Пароль",
       "username": "Имя пользователя",
       "confirmPassword": "Подтвердите пароль",

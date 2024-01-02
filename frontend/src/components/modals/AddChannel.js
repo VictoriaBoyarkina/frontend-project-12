@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { selectors as channelsSelectors } from '../../store/channelsSlice.js';
+import { selectors as channelsSelectors, actions as channelsActions } from '../../store/channelsSlice.js';
 import { actions as modalActions } from '../../store/modalSlice.js';
-import { actions as currentChannelIdActions } from '../../store/currentChannelIdSlice.js';
 import { EmitsContext } from '../../contexts/index.js';
 import { getModalSchema } from '../../schemas/index.js';
 
@@ -40,7 +39,7 @@ const Addchannel = () => {
         const { status, data } = response;
         console.log(status);
         toast.success(t('toast.addChannel'));
-        dispatch(currentChannelIdActions.setCurrentChannelId(data.id));
+        dispatch(channelsActions.setCurrentChannelId(data.id));
         setSubmitting(false);
         dispatch(modalActions.closeModal());
       });

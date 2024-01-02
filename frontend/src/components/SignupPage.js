@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import useAuth from '../hooks/index.js';
@@ -20,8 +20,6 @@ const getConfirmPasswordInputClass = (error, touched, password, confirmPassword,
 
 const SignupPage = () => {
   const navigate = useNavigate();
-
-  const location = useLocation();
 
   const { t } = useTranslation();
 
@@ -42,7 +40,7 @@ const SignupPage = () => {
         const res = await axios.post(routes.signupPath(), values);
         localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn();
-        navigate('/', { state: { from: location } });
+        navigate(routes.chatPage());
       } catch (err) {
         setSubmitting(false);
         if (err.isAxiosError && err.response.status === 409) {
@@ -71,7 +69,7 @@ const SignupPage = () => {
                 <img
                   src={signup}
                   className="rounded-circle"
-                  alt="Регистрация"
+                  alt={t('signupPage.mainAlt')}
                 />
               </div>
               <form
@@ -79,7 +77,7 @@ const SignupPage = () => {
                 onSubmit={handleSubmit}
               >
                 <h1 className="text-center mb-4">
-                  {t('registration')}
+                  {t('signupPage.header')}
                 </h1>
                 <div className="form-floating mb-3">
                   <input
@@ -87,7 +85,7 @@ const SignupPage = () => {
                     name="username"
                     autoComplete="username"
                     required
-                    placeholder="От 3 до 20 символов"
+                    placeholder={t('signupPage.placeholders.username')}
                     id="username"
                     className={getInputClass(errors.username, touched.username, authFailed)}
                     onChange={handleChange}
@@ -110,7 +108,7 @@ const SignupPage = () => {
                     autoComplete="new-password"
                     required
                     type="password"
-                    placeholder="Не менее 6 символов"
+                    placeholder={t('signupPage.placeholders.password')}
                     id="password"
                     className={getInputClass(errors.password, touched.password, authFailed)}
                     onChange={handleChange}
@@ -132,7 +130,7 @@ const SignupPage = () => {
                     name="confirmPassword"
                     autoComplete="new-password"
                     required
-                    placeholder="Пароли должны совпадать"
+                    placeholder={t('signupPage.placeholders.confirmPassword')}
                     type="password"
                     id="confirmPassword"
                     className={getConfirmPasswordInputClass(

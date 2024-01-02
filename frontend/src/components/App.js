@@ -16,7 +16,7 @@ import AuthProvider from './AuthProvider.js';
 import PrivateRoute from './PrivateRoute.js';
 import LogOutButton from './LogoutButton.js';
 import { EmitsContext } from '../contexts';
-import getModal from './modals/index.js';
+import renderModal from './modals/index.js';
 import routes from '../routes.js';
 
 const rollbarConfig = {
@@ -26,14 +26,6 @@ const rollbarConfig = {
 
 const App = ({ i18n, socket }) => {
   const { modal } = useSelector((state) => state.modal);
-
-  const renderModal = () => {
-    if (!modal.active) {
-      return null;
-    }
-    const Component = getModal(modal.name);
-    return <Component />;
-  };
 
   return (
     <Provider config={rollbarConfig}>
@@ -94,7 +86,7 @@ const App = ({ i18n, socket }) => {
                 <ToastContainer
                   position="top-right"
                 />
-                {renderModal()}
+                {renderModal(modal)}
               </EmitsContext.Provider>
             </BrowserRouter>
           </I18nextProvider>
